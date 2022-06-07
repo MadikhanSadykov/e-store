@@ -10,6 +10,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="language" />
 
 <div class="row">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xlg-2">
@@ -17,7 +19,7 @@
         <div id="product278009" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Prestigio SH398187">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Prestigio SH398187">
                     <div class="desc">
                         <div class="cell">
                             <p>
@@ -70,7 +72,7 @@
         <div id="product278018" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Huawei BIC2404">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Huawei BIC2404">
                     <div class="desc">
                         <div class="cell">
                             <p>
@@ -149,7 +151,7 @@
         <div id="product278039" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Samsung JL9994">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Samsung JL9994">
                     <div class="desc">
                         <div class="cell">
                             <p>
@@ -176,7 +178,7 @@
         <div id="product378009" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Prestigio SH398187">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Prestigio SH398187">
                     <div class="desc">
                         <div class="cell">
                             <p>
@@ -229,7 +231,7 @@
         <div id="product378018" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Huawei BIC2404">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Huawei BIC2404">
                     <div class="desc">
                         <div class="cell">
                             <p>
@@ -308,7 +310,7 @@
         <div id="product378039" class="panel panel-default product">
             <div class="panel-body">
                 <div class="thumbnail">
-                    <img src="/media/736d61727470686f6e65.jpg" alt="Samsung JL9994">
+                    <img src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Samsung JL9994">
                     <div class="desc">
                         <div class="cell">
                             <p>

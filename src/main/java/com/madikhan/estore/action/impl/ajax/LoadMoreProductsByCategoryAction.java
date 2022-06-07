@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.madikhan.estore.constants.URLPathConstants.*;
 
 public class LoadMoreProductsByCategoryAction implements Action {
 
-    private static final int SUBSTRING_INDEX = LOAD_MORE_PRODUCTS_URL_PATH.length();
+    private static final int SUBSTRING_INDEX = "/ajax/html/more/products".length();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {

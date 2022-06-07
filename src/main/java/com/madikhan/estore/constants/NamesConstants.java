@@ -21,6 +21,8 @@ public class NamesConstants {
 
     public static final int MAX_PRODUCTS_PER_SHOPPING_CART = 20;
 
+    public static final int MAX_PRODUCTS_PER_HTML_PAGE = 12;
+
     public static final String ACCOUNT_ACTIONS_HISTORY = "ACCOUNT_ACTIONS_HISTORY";
 
 

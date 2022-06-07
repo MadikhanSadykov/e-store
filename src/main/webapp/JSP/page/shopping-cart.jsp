@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr id="product278009" class="item">
-            <td class="text-center"><img class="small" src="/media/736d61727470686f6e65.jpg" alt="Prestigio SH398187"><br>Prestigio SH398187</td>
+            <td class="text-center"><img class="small" src="/external/test-data/736d61727470686f6e65.jpg/736d61727470686f6e65.jpg" alt="Prestigio SH398187"><br>Prestigio SH398187</td>
             <td class="price">$ 570.00</td>
             <td class="count">1</td>
             <td class="hidden-print"><a class="btn btn-danger remove-product" data-id-product="278009" data-count="1">Remove one</a></td>
