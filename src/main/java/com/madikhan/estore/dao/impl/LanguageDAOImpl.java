@@ -1,12 +1,13 @@
 package com.madikhan.estore.dao.impl;
 
 import com.madikhan.estore.dao.DAO;
+import com.madikhan.estore.dao.LanguageDAO;
 import com.madikhan.estore.model.Language;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class LanguageDAO implements DAO<Language> {
+public class LanguageDAOImpl implements LanguageDAO {
     @Override
     public void create(Language object) throws SQLException {
 

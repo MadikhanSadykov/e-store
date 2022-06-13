@@ -3,8 +3,9 @@ package com.madikhan.estore.action.impl;
 import static com.madikhan.estore.constants.NamesConstants.*;
 
 import com.madikhan.estore.action.Action;
-import com.madikhan.estore.dao.impl.UserDAO;
 import com.madikhan.estore.model.User;
+import com.madikhan.estore.service.UserService;
+import com.madikhan.estore.service.impl.UserServiceImpl;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.RequestDispatcher;
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 
 public class RegisterAction implements Action {
 
-    private UserDAO userDAO = UserDAO.getInstance();
+    private UserService userService = UserServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
@@ -26,17 +27,14 @@ public class RegisterAction implements Action {
         RequestDispatcher dispatcher;
 
         User user = fillUser(request);
-        userDAO.create(user);
+        userService.save(user);
         session.setAttribute(USER_ID, user.getId());
+        session.setAttribute(NAME, user.getName());
         session.setAttribute(EMAIL, user.getEmail());
-        session.setAttribute(ROLE_ID, user.getIsAdmin());
-        session.setAttribute(LOGIN, user);
+        session.setAttribute(IS_ADMIN, user.getIsAdmin());
+
         dispatcher = request.getRequestDispatcher(HOME_PAGE_PATH);
         dispatcher.forward(request, response);
-
-    }
-
-    private void checkLogin(){
 
     }
 
@@ -44,10 +42,7 @@ public class RegisterAction implements Action {
         User user = new User();
 
         user.setName(request.getParameter(NAME));
-        user.setSurname(request.getParameter(SURNAME));
         user.setEmail(request.getParameter(EMAIL));
-        user.setPhoneNumber(request.getParameter(PHONE_NUMBER));
-        user.setAddress(request.getParameter(ADDRESS));
         String password = request.getParameter(PASSWORD);
         String encodedPassword = DigestUtils.md5Hex(password);
         user.setPassword(encodedPassword);

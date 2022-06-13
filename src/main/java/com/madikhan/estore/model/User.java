@@ -1,6 +1,8 @@
 package com.madikhan.estore.model;
 
-public class User {
+public class User extends AbstractModel<Long> {
+
+    private static final long serialVersionUID = 3493233408084355519L;
 
     private Long id;
     private String name;
@@ -9,7 +11,23 @@ public class User {
     private String phoneNumber;
     private String address;
     private String password;
-    private Integer isAdmin;
+    private Boolean isAdmin;
+
+    public User() {
+        super();
+    }
+
+    public User(Long id, String name, String surname, String email, String phoneNumber, String address,
+                String password, Boolean isAdmin) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
 
     public Long getId() {
         return id;
@@ -67,11 +85,17 @@ public class User {
         this.password = password;
     }
 
-    public Integer getIsAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Integer isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User [id=%s, name=%s, surname=%s, email=%s, phoneNumber=%s, address=%s, password=%s, " +
+                        "isAdmin=%s]", getId(), name, surname, email, phoneNumber, address, password, isAdmin);
     }
 }

@@ -69,14 +69,12 @@ public class TestDataGenerator {
         List<Producer> producers = getProducers(categories);
         clearMediaDir();
         try (Connection c = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
-//            c.setAutoCommit(false);
-//            clearDb(c);
-//            Map<String, Integer> producerIdMap = insertProducers(c, producers);
-//            Map<String, Integer> categoryIdMap = insertCategories(c, categories);
-//            c.commit();
-//
-//            insertProducts(c, categories, categoryIdMap, producerIdMap);
-//            c.commit();
+            c.setAutoCommit(false);
+            clearDb(c);
+            Map<String, Integer> producerIdMap = insertProducers(c, producers);
+            Map<String, Integer> categoryIdMap = insertCategories(c, categories);
+            insertProducts(c, categories, categoryIdMap, producerIdMap);
+            c.commit();
         } catch (SQLException e) {
             if (e.getNextException() != null) {
                 e.getNextException().printStackTrace();
@@ -148,7 +146,7 @@ public class TestDataGenerator {
         int i = 1;
         try (PreparedStatement ps = c.prepareStatement("insert into producer(name,product_count) values (?,?)")) {
             for (Producer producer : producers) {
-                idMap.put(producer.name, i);
+                idMap.put(producer.name, i++);
                 ps.setString(1, producer.name);
                 ps.setInt(2, producer.productCount);
                 ps.addBatch();
@@ -164,7 +162,7 @@ public class TestDataGenerator {
         int i = 1;
         try (PreparedStatement ps = c.prepareStatement("insert into category(name,url,product_count,id_language) values (?,?,?,?)")) {
             for (Category category : categories) {
-                idMap.put(category.name, i);
+                idMap.put(category.name, i++);
                 ps.setString(1, capitalize(category.name));
                 ps.setString(2, "/" + category.name.toLowerCase().trim());
                 ps.setInt(3, category.getProductCount());

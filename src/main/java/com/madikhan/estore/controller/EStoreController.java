@@ -7,7 +7,6 @@ import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ServiceManager;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,18 +15,15 @@ import java.sql.SQLException;
 
 public class EStoreController extends HttpServlet {
 
-    private ProductService productService;
-    private OrderService orderService;
+    private static final long serialVersionUID = -3530914552001424135L;
+
+
 
     public EStoreController() {
 
     }
 
-    @Override
-    public final void init() throws ServletException {
-        productService = ServiceManager.getInstance(getServletContext()).getProductService();
-        orderService = ServiceManager.getInstance(getServletContext()).getOrderService();
-    }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -48,11 +44,4 @@ public class EStoreController extends HttpServlet {
         doGet(request, response);
     }
 
-    public final ProductService getProductService() {
-        return productService;
-    }
-
-    public final OrderService getOrderService() {
-        return orderService;
-    }
 }

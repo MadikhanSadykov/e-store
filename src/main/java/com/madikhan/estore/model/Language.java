@@ -1,17 +1,19 @@
 package com.madikhan.estore.model;
 
-public class Language {
+public class Language extends AbstractModel<Integer>{
 
-    private Integer id;
+    private static final long serialVersionUID = -858456723745560796L;
+
     private String name;
     private String shortName;
 
-    public Integer getId() {
-        return id;
+    public Language() {
+        super();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Language(String name, String shortName) {
+        this.name = name;
+        this.shortName = shortName;
     }
 
     public String getName() {
@@ -28,5 +30,10 @@ public class Language {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Language [id=%s, name=%s, shortName=%s", getId(), name, shortName);
     }
 }

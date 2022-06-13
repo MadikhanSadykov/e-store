@@ -15,7 +15,7 @@
 <!-- Search form -->
 <form class="search" action="/search">
     <div id="findProducts" class="panel panel-success collapse">
-        <div class="panel-heading">Find products</div>
+        <div class="panel-heading"><b>Find products</b></div>
         <div class="panel-body">
             <div class="input-group">
                 <input type="text" name="query" class="form-control" placeholder="Search query">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-heading">Producers filters</div>
+            <div class="panel-heading"><b>Producers filters</b></div>
             <div class="panel-body producers">
                 <label><input type="checkbox" id="allProducers"> All</label>
                 <div class="form-group">

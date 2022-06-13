@@ -82,10 +82,13 @@ $(function(){
 	var loadMoreProducts = function (){
 		var btn = $('#loadMore');
 		convertButtonToLoader(btn, 'btn-success');
-		var url = '/ajax/html/more' + location.pathname + '?' + location.search.substring(1);
+		var myUrl = 'moreProducts';
+		// var url = '/more' + location.pathname;
+		// // '' + location.pathname;
+		// // + '?' + location.search.substring(1);
 
 		$.ajax({
-			url : url,
+			url : myUrl,
 			success : function (html) {
 				$('#productList .text-center').prepend(html);
 				convertLoaderToButton(btn, 'btn-success', loadMoreProducts);
@@ -96,6 +99,7 @@ $(function(){
 			}
 		});
 	};
+
 	var initSearchForm = function (){
 		$('#allCategories').click(function(){
 			$('.categories .search-option').prop('checked', $(this).is(':checked'));

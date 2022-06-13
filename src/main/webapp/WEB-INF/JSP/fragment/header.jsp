@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sssad
-  Date: 5/17/2022
-  Time: 5:17 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,7 +5,7 @@
 <fmt:setBundle basename="language" />
 
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color: #000000">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ishopNav" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -20,8 +13,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="/static/img/logo.png" href="/products" alt="EStore">
-<%--            <a class="navbar-brand" href="/products">EStore</a>--%>
+            <a class="navbar-header" href="/products">
+                <img src="/static/img/logo.png" href="/products" alt="EStore">
+            </a>
         </div>
 
 
@@ -43,7 +37,28 @@
                 </li>
             </ul>
 
-            <a href="#" class="btn btn-primary navbar-btn navbar-right sign-in"><i class="fa fa-facebook-official" aria-hidden="true"></i><fmt:message key="sign.in"></a>
+
+
+            <c:if test="${empty sessionScope.name}">
+                <a href="/loginPage" class="btn btn-primary navbar-btn navbar-right sign-in">
+                    <i class="fa-sign-in-alt" aria-hidden="true"></i> Sign In</a>
+            </c:if>
+
+            <c:if test="${not empty sessionScope.name}">
+                <a href="/logOut" class="btn btn-primary navbar-btn navbar-right sign-in">
+                    <i class="fa-sign-in-alt" aria-hidden="true"></i>
+                    Log Out
+                </a>
+            </c:if>
+
+            <c:if test="${not empty sessionScope.name}">
+                <a href="/profile" class="btn btn-primary navbar-btn navbar-right sign-in">
+                <i class="fa-sign-in-alt" aria-hidden="true"></i>
+                <c:out value="${sessionScope.name}" />
+                </a>
+            </c:if>
+
+
         </div>
     </div>
 </nav>
