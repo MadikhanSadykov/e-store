@@ -14,4 +14,4 @@ lib/
 /out
 
 #### Git ####
-
+.gitignore
