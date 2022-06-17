@@ -1,0 +1,15 @@
+
+#### Eclipse IDE ####
+/target/
+.classpath
+.project
+.settings/
+
+####  IntelliJ IDEA IDE ####
+.idea
+*.iml
+lib/
+/out/
+
+#### Git ####
+
