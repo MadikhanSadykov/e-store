@@ -25,20 +25,25 @@ public class ActionFactory {
         URL_PATH_ACTION_MAP.put("/logOut", new LogOutAction());
         URL_PATH_ACTION_MAP.put("/products", new ProductsAction());
         URL_PATH_ACTION_MAP.put("/profile", new ProfilePageAction());
+        URL_PATH_ACTION_MAP.put("/profileUpdate", new UpdateUserAction());
+        URL_PATH_ACTION_MAP.put("/changeProfile", new ChangeProfilePageAction());
+        URL_PATH_ACTION_MAP.put("/changeLang", new ChangeLanguageAction());
         URL_PATH_ACTION_MAP.put("/null", null);
-        URL_PATH_ACTION_MAP.put("/moreProducts", new LoadMoreProductsAction());
-        URL_PATH_ACTION_MAP.put("/products/*", new ProductsByCategoryAction());
+        URL_PATH_ACTION_MAP.put("/more/products", new LoadMoreProductsAction());
+        URL_PATH_ACTION_MAP.put("/more/productsByCategory/*", new LoadMoreProductsByCategoryAction());
+        URL_PATH_ACTION_MAP.put("/productsByCategory/*", new ProductsByCategoryAction());
         URL_PATH_ACTION_MAP.put("/search", new SearchAction());
-        URL_PATH_ACTION_MAP.put("/moreProductsByCategory/*", new LoadMoreProductsByCategoryAction());
+        URL_PATH_ACTION_MAP.put("/more/search", new LoadMoreSearchAction());
         URL_PATH_ACTION_MAP.put("/ajax/html/more/search", new LoadMoreSearchAction());
         URL_PATH_ACTION_MAP.put("/shopping-cart", new ShoppingCartAction());
     }
 
-    public Action getAction(String request) {
+    public Action getAction(String requestURI) {
         Action action = URL_PATH_ACTION_MAP.get("/error");
 
         for (Map.Entry<String, Action> pair : URL_PATH_ACTION_MAP.entrySet()) {
-            if (request.equalsIgnoreCase(pair.getKey()) || (pair.getKey().contains("/*") && request.contains(trimString(pair.getKey()))) ) {
+            if (requestURI.equalsIgnoreCase(pair.getKey()) || (pair.getKey().contains("/*")
+                    && isRequestURIContains(requestURI, trimString(pair.getKey())) )) {
                 action = pair.getValue();
             }
         }
@@ -56,4 +61,29 @@ public class ActionFactory {
         return string.substring(0, string.length() - 2);
     }
 
+    private boolean isRequestURIContains(String requestURI, String URI) {
+
+        int URILength = URI.length();
+        int requestURILength = requestURI.length();
+
+        int differenceLength = requestURILength - URILength;
+
+        if (differenceLength < 0)
+            differenceLength *= -1;
+
+        int trimRequestURILength = requestURILength - differenceLength;
+
+        if (trimRequestURILength < 0)
+            trimRequestURILength *= -1;
+
+        try {
+            String compareURI = requestURI.substring(0, trimRequestURILength);
+            if (URI.equals(compareURI))
+                return true;
+        } catch (StringIndexOutOfBoundsException e) {
+            return false;
+        }
+
+        return false;
+    }
 }

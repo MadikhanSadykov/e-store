@@ -12,7 +12,6 @@ public class Product extends AbstractModel<Long> {
     private BigDecimal price;
     private String category;
     private String producer;
-    private Integer idLanguage;
 
     public Product() {
         super();
@@ -25,7 +24,6 @@ public class Product extends AbstractModel<Long> {
         this.price = price;
         this.category = category;
         this.producer = producer;
-        this.idLanguage = idLanguage;
     }
 
     public String getName() {
@@ -76,18 +74,10 @@ public class Product extends AbstractModel<Long> {
         this.producer = producer;
     }
 
-    public Integer getIdLanguage() {
-        return idLanguage;
-    }
-
-    public void setIdLanguage(Integer idLanguage) {
-        this.idLanguage = idLanguage;
-    }
-
     @Override
     public String toString() {
         return String.format("Product [id=%s, name=%s, description=%s, imageLink=%s, " +
-                        "price=%s, idCategory=%s, idProducer=%s, idLanguage=%s",
-                super.getId(), name, description, imageLink, price, category, producer, idLanguage);
+                        "price=%s, idCategory=%s, idProducer=%s",
+                super.getId(), name, description, imageLink, price, category, producer);
     }
 }

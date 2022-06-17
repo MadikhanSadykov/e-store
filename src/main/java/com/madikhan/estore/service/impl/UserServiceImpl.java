@@ -33,7 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void update(Long id, User user) throws SQLException {
+        userDAO.update(id, user);
+    }
+
+    @Override
     public boolean isEmailExists(String email) throws SQLException {
         return userDAO.isEmailExist(email);
+    }
+
+    @Override
+    public String getPasswordByUserID(Long id) throws SQLException {
+        return userDAO.getPasswordByUserID(id);
     }
 }

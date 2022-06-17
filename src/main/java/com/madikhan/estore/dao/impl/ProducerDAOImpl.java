@@ -20,7 +20,7 @@ public class ProducerDAOImpl implements ProducerDAO {
     private Connection connection;
     private static ProducerDAO instance;
 
-    private static final String SELECT_ALL_PRODUCERS = "SELECT * FROM producer ORDER BY id";
+    private static final String SELECT_ALL_PRODUCERS = "SELECT * FROM producer ORDER BY name";
 
     private ProducerDAOImpl(){
         super();

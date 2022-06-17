@@ -19,7 +19,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     private Connection connection;
     private static CategoryDAO instance;
 
-    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM category ORDER BY id";
+    private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM category WHERE id_language = ? ORDER BY name";
 
     private CategoryDAOImpl() {
         super();
@@ -50,11 +50,12 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public List<Category> getAll() throws SQLException {
+    public List<Category> getAllByLanguage(Integer languageID) throws SQLException {
         List<Category> categories = new ArrayList<>();
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CATEGORIES)) {
+            preparedStatement.setInt(1, languageID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Category category = new Category();
@@ -67,6 +68,11 @@ public class CategoryDAOImpl implements CategoryDAO {
             connectionPool.bringBackConnection(connection);
         }
         return categories;
+    }
+
+    @Override
+    public List<Category> getAll() throws SQLException {
+        return null;
     }
 
     @Override

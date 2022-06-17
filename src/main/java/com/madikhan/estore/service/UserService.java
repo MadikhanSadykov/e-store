@@ -13,5 +13,9 @@ public interface UserService {
 
     boolean isEmailExists(String email) throws SQLException;
 
+    void update(Long id, User user) throws SQLException;
+
+    String getPasswordByUserID(Long id) throws SQLException;
+
 
 }

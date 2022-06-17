@@ -1,8 +1,8 @@
 package com.madikhan.estore.action.impl;
 
-import static com.madikhan.estore.constants.NamesConstants.*;
-
 import com.madikhan.estore.action.Action;
+
+import static com.madikhan.estore.constants.NamesConstants.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class LogOutAction implements Action {
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         HttpSession session = request.getSession(true);

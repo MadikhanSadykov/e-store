@@ -14,4 +14,6 @@ public interface UserDAO extends DAO<User> {
 
     boolean isEmailExist(String email) throws SQLException;
 
+    String getPasswordByUserID(Long id) throws SQLException;
+
 }

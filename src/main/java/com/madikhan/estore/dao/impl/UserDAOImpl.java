@@ -22,6 +22,10 @@ public class UserDAOImpl implements UserDAO {
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT * FROM \"user\" WHERE email = ? AND password = ?";
     private static final String SELECT_USER_BY_PHONE_NUMBER_AND_PASSWORD = "SELECT * FROM \"user\" WHERE phone_number = ? AND password = ?";
     private static final String SELECT_EMAIL_EXISTS = "SELECT EXISTS(SELECT 1 FROM \"user\" WHERE email = ? )";
+    private static final String UPDATE_USER_BY_ID = "UPDATE \"user\" SET name = ?, surname = ?, email = ?, phone_number = ?, " +
+            " address = ?, password = ? WHERE id = ?";
+    private static final String SELECT_EMAIL_BY_ID = "SELECT email FROM \"user\" WHERE id = ?";
+    private static final String SELECT_PASSWORD_BY_ID = "SELECT password FROM \"user\" WHERE id = ?";
 
     private ConnectionPool connectionPool;
     private Connection connection;
@@ -67,7 +71,23 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void update(Long id, User object) {
+    public void update(Long id, User user) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER_BY_ID)) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getPhoneNumber());
+            statement.setString(5, user.getAddress());
+            statement.setString(6, user.getPassword());
+            statement.setLong(7, id);
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
 
     }
 
@@ -109,6 +129,25 @@ public class UserDAOImpl implements UserDAO {
             connectionPool.bringBackConnection(connection);
         }
         return user;
+    }
+
+    @Override
+    public String getPasswordByUserID(Long id) throws SQLException {
+        String password = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_PASSWORD_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                password = resultSet.getString(PASSWORD);
+            }
+        } catch(SQLException sqlException){
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return password;
     }
 
 

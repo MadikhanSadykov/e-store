@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginPageAction implements Action {
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         RoutingUtil.forwardToPage("login.jsp", request, response);

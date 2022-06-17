@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ErrorAction implements Action {
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         RoutingUtil.forwardToPage("error.jsp", request, response);

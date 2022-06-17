@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CategoryService {
 
-    List<Category> listAllCategories() throws SQLException;
+    List<Category> listAllCategories(Integer languageID) throws SQLException;
 
 }

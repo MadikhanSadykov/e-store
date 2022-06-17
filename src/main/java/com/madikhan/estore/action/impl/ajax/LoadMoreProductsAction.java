@@ -7,31 +7,34 @@ import com.madikhan.estore.service.impl.ProductServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
 import static com.madikhan.estore.constants.NamesConstants.MAX_PRODUCTS_PER_HTML_PAGE;
 
-public class LoadMoreProductsAction implements Action{
+public class LoadMoreProductsAction implements Action {
 
     private ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            List<Product> products = null;
-            try {
-                products = productService.listAllProducts(2, MAX_PRODUCTS_PER_HTML_PAGE);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("products", products);
-            RoutingUtil.forwardToFragment("product-list.jsp", request, response);
+
+        HttpSession session = request.getSession(true);
+
+        Integer languageID = (Integer) session.getAttribute("languageID");
+
+        List<Product> products = null;
+        try {
+            products = productService.listAllProducts(getPage(request), MAX_PRODUCTS_PER_HTML_PAGE, languageID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("products", products);
+        RoutingUtil.forwardToFragment("product-list.jsp", request, response);
     }
 
 }

@@ -31,7 +31,11 @@ public abstract class AbstractFilter implements Filter {
         if(UrlUtil.isMediaUrl(url) || UrlUtil.isStaticUrl(url)) {
             chain.doFilter(request, response);
         } else {
-            doFilter(req, resp, chain);
+            try {
+                doFilter(req, resp, chain);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

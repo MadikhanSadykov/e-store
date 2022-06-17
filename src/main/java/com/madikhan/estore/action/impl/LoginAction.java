@@ -34,25 +34,25 @@ public class LoginAction implements Action {
         boolean isMailExists = userService.isEmailExists(email);
 
         if (!isMailExists) {
-            request.setAttribute(EMAIL, email);
-            request.setAttribute(EMAIL_AUTH_ERROR, EMAIL_IS_WRONG);
+            request.setAttribute(USER_EMAIL_ATTRIBUTE, email);
+            request.setAttribute(EMAIL_AUTH_ERROR, EMAIL_IS_WRONG_MESSAGE);
             RoutingUtil.forwardToPage("login.jsp", request, response);
         } else {
             User user = userService.getUserByEmailAndPassword(email, encodedPassword);
 
             if (user != null) {
-                session.setAttribute(USER_ID, user.getId());
-                session.setAttribute(NAME, user.getName());
-                session.setAttribute(SURNAME, user.getSurname());
-                session.setAttribute(EMAIL, user.getEmail());
-                session.setAttribute(PHONE_NUMBER, user.getPhoneNumber());
-                session.setAttribute(ADDRESS, user.getAddress());
+                session.setAttribute(USER_ID_ATTRIBUTE, user.getId());
+                session.setAttribute(USER_NAME_ATTRIBUTE, user.getName());
+                session.setAttribute(USER_SURNAME_ATTRIBUTE, user.getSurname());
+                session.setAttribute(USER_EMAIL_ATTRIBUTE, user.getEmail());
+                session.setAttribute(USER_PHONE_NUMBER_ATTRIBUTE, user.getPhoneNumber());
+                session.setAttribute(USER_ADDRESS_ATTRIBUTE, user.getAddress());
                 session.setAttribute(IS_ADMIN, user.getIsAdmin());
                 dispatcher = request.getRequestDispatcher(HOME_PAGE_PATH);
                 dispatcher.forward(request, response);
             } else {
-                request.setAttribute(EMAIL, email);
-                request.setAttribute(PASSWORD_AUTH_ERROR, PASSWORD_IS_WRONG);
+                request.setAttribute(USER_EMAIL_ATTRIBUTE, email);
+                request.setAttribute(PASSWORD_AUTH_ERROR, PASSWORD_IS_WRONG_MESSAGE);
                 RoutingUtil.forwardToPage("login.jsp", request, response);
             }
         }

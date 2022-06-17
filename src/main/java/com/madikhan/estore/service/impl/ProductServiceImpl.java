@@ -3,9 +3,8 @@ package com.madikhan.estore.service.impl;
 
 import com.madikhan.estore.dao.ProductDAO;
 import com.madikhan.estore.dao.impl.ProductDAOImpl;
-import com.madikhan.estore.model.Category;
-import com.madikhan.estore.model.Producer;
 import com.madikhan.estore.model.Product;
+import com.madikhan.estore.model.search.SearchForm;
 import com.madikhan.estore.service.ProductService;
 
 import java.sql.SQLException;
@@ -23,13 +22,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> listAllProducts(int page, int limitOfProducts) throws SQLException {
-        return productDAO.getProductsWithLimit(page, limitOfProducts);
+    public List<Product> listAllProducts(Long page, int limitOfProducts, int languageID) throws SQLException {
+        return productDAO.getProductsWithLimit(page, limitOfProducts, languageID);
     }
 
     @Override
-    public List<Product> listProductsByCategory(String categoryUrl, int page, int maxAmountOfProducts) {
-        return productDAO.getProductsByCategoryWithLimit(categoryUrl, page, maxAmountOfProducts);
+    public List<Product> listProductsByCategory(String categoryUrl, Long page, int maxAmountOfProducts, int languageID) {
+        return productDAO.getProductsByCategoryWithLimit(categoryUrl, page, maxAmountOfProducts, languageID);
     }
 
+    @Override
+    public Long countAllProducts() {
+        return productDAO.getCountAllProducts();
+    }
+
+    @Override
+    public Long countAllProductsByCategory(String categoryUrl, int languageID) {
+        return productDAO.getCountAllProductsByCategory(categoryUrl, languageID);
+    }
+
+    @Override
+    public List<Product> listProductsBySearchForm(SearchForm searchForm, Long page, int maxAmountOfProducts, int languageID) {
+        return productDAO.getProductsBySearchForm(searchForm, page, maxAmountOfProducts, languageID);
+    }
+
+    @Override
+    public Long countAllProductsBySearchForm(SearchForm searchForm, int languageID) {
+        return productDAO.getCountAllProductsBySearchForm(searchForm, languageID);
+    }
 }
