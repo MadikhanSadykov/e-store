@@ -10,6 +10,8 @@
 *.iml
 lib/
 /out/
+/out/artifacts
+/out
 
 #### Git ####
 
