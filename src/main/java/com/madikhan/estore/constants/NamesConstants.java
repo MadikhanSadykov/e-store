@@ -32,6 +32,10 @@ public class NamesConstants {
 
     public static final int MAX_PRODUCTS_PER_HTML_PAGE = 24;
 
+    public static final int MAX_ORDERS_PER_HTML_PAGE = 24;
+
+    public static final String  CURRENT_USER = "CURRENT_USER";
+
     public static final String ACCOUNT_ACTIONS_HISTORY = "ACCOUNT_ACTIONS_HISTORY";
     public static final String AUTHENTICATION_ERROR = "authError";
     public static final String EMAIL_AUTH_ERROR = "emailAuthError";

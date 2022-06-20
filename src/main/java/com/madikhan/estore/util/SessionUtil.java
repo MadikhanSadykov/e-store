@@ -1,42 +1,62 @@
 package com.madikhan.estore.util;
 
-import com.madikhan.estore.constants.NamesConstants;
-import com.madikhan.estore.model.ShoppingCart;
+import static com.madikhan.estore.constants.NamesConstants.*;
+import static com.madikhan.estore.constants.NamesConstants.Cookie.*;
+import com.madikhan.estore.model.Cart;
+import com.madikhan.estore.model.User;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SessionUtil {
-    public static ShoppingCart getCurrentShoppingCart(HttpServletRequest req) {
-        ShoppingCart shoppingCart = (ShoppingCart) req.getSession().getAttribute(NamesConstants.CURRENT_SHOPPING_CART);
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-            setCurrentShoppingCart(req, shoppingCart);
+
+    public static Cart getCurrentShoppingCart(HttpServletRequest request) {
+        Cart cart = (Cart) request.getSession().getAttribute(CURRENT_SHOPPING_CART);
+        if (cart == null) {
+            cart = new Cart();
+            setCurrentShoppingCart(request, cart);
         }
-        return shoppingCart;
+        return cart;
     }
 
     public static boolean isCurrentShoppingCartCreated(HttpServletRequest req) {
-        return req.getSession().getAttribute(NamesConstants.CURRENT_SHOPPING_CART) != null;
+        return req.getSession().getAttribute(CURRENT_SHOPPING_CART) != null;
     }
 
-    public static void setCurrentShoppingCart(HttpServletRequest req, ShoppingCart shoppingCart) {
-        req.getSession().setAttribute(NamesConstants.CURRENT_SHOPPING_CART, shoppingCart);
+    public static void setCurrentShoppingCart(HttpServletRequest req, Cart cart) {
+        req.getSession().setAttribute(CURRENT_SHOPPING_CART, cart);
     }
 
     public static void clearCurrentShoppingCart(HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().removeAttribute(NamesConstants.CURRENT_SHOPPING_CART);
-        WebUtil.setCookie(NamesConstants.Cookie.SHOPPING_CART.getName(), null, 0, resp);
+        req.getSession().removeAttribute(CURRENT_SHOPPING_CART);
+        WebUtil.setCookie(SHOPPING_CART.getName(), null, 0, resp);
     }
 
     public static Cookie findShoppingCartCookie(HttpServletRequest req) {
-        return WebUtil.findCookie(req, NamesConstants.Cookie.SHOPPING_CART.getName());
+        return WebUtil.findCookie(req, SHOPPING_CART.getName());
     }
 
     public static void updateCurrentShoppingCartCookie(String cookieValue, HttpServletResponse resp) {
-        WebUtil.setCookie(NamesConstants.Cookie.SHOPPING_CART.getName(), cookieValue,
-                NamesConstants.Cookie.SHOPPING_CART.getTtl(), resp);
+        WebUtil.setCookie(SHOPPING_CART.getName(), cookieValue,
+                SHOPPING_CART.getTtl(), resp);
+    }
+
+    public static User getCurrentUser(HttpServletRequest request) {
+        return (User) request.getSession().getAttribute(CURRENT_USER);
+    }
+
+    public static void setCurrentUser(HttpServletRequest request, User user) {
+        request.getSession().setAttribute(CURRENT_USER, user);
+    }
+
+    public static boolean isCurrentUserCreated(HttpServletRequest request) {
+        return getCurrentUser(request) != null;
+    }
+
+    public static void clearCurrentUser(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().removeAttribute(CURRENT_USER);
+//        WebUtil.setCookie(SHOPPING_CART.getName(), null, 0, resp);
     }
 
     private SessionUtil() {

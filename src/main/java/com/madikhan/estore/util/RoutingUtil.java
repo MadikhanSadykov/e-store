@@ -1,5 +1,7 @@
 package com.madikhan.estore.util;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,12 @@ public final class RoutingUtil {
     public static void sendHTMLFragment(String text, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         response.getWriter().println(text);
+        response.getWriter().close();
+    }
+
+    public static void sendJSON(JSONObject jsonObject, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        response.getWriter().println(jsonObject.toString());
         response.getWriter().close();
     }
 

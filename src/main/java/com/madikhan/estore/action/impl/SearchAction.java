@@ -2,7 +2,7 @@ package com.madikhan.estore.action.impl;
 
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.model.Product;
-import com.madikhan.estore.model.search.SearchForm;
+import com.madikhan.estore.model.form.SearchForm;
 import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;

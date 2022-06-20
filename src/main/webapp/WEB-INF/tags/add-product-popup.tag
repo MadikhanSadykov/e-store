@@ -21,13 +21,12 @@
                     </div>
                     <div class="list-group">
                         <span class="list-group-item"> <small>Price:</small> <span class="price">0</span></span>
-                        <span class="list-group-item"> <small>Count:</small> <input type="number" class="count" value="1" min="1" max="10"></span>
+                        <span class="list-group-item"> <small>Count:</small> <input type="number" class="productCount" value="1" min="1" max="10"></span>
                         <span class="list-group-item"> <small>Cost:</small> <span class="cost">0</span></span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <img id="addToCartIndicator" src="/static/img/loading.gif" class="hidden" alt="Loading...">
                 <button id="addToCart" type="button" class="btn btn-primary">Add to Cart</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>

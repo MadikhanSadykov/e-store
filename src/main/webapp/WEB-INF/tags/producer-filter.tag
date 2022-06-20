@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ attribute name="producers" required="true" type="java.util.Collection"%>
-<%@ attribute name="searchForm" required="true" type="com.madikhan.estore.model.search.SearchForm"%>
+<%@ attribute name="searchForm" required="true" type="com.madikhan.estore.model.form.SearchForm"%>
 
 <div class="panel-heading">Producer filters</div>
 <div class="panel-body categories">

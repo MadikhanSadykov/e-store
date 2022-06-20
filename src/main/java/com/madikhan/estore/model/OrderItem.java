@@ -9,6 +9,7 @@ public class OrderItem extends AbstractModel<Long> {
     private Integer productCount;
     private BigDecimal cost;
     private Long idOrder;
+    private Long idProduct;
     private Product product;
 
     public OrderItem() {
@@ -52,6 +53,14 @@ public class OrderItem extends AbstractModel<Long> {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Long getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(Long idProduct) {
+        this.idProduct = idProduct;
     }
 
     @Override

@@ -25,14 +25,15 @@
 
 
 
-            <ul id="currentShoppingCart" class="nav navbar-nav navbar-right hidden">
+            <ul id="currentShoppingCart" class="nav navbar-nav navbar-right
+            ${(sessionScope.CURRENT_SHOPPING_CART == null or sessionScope.CURRENT_SHOPPING_CART.totalCount == 0)  ? 'hidden' : ''}" >
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping cart (<span class="total-count">0</span>)<span class="caret"></span>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping cart (<span class="total-count">${sessionScope.CURRENT_SHOPPING_CART.totalCount}</span>)<span class="caret"></span>
                     </a>
                     <div class="dropdown-menu shopping-cart-desc">
-                        Total count: <span class="total-count">0</span><br>
-                        Total cost: <span class="total-cost">0</span><br>
+                        Total count: <span class="total-count">${sessionScope.CURRENT_SHOPPING_CART.totalCount}</span><br>
+                        Total cost: <span class="total-cost">${sessionScope.CURRENT_SHOPPING_CART.totalCost}</span><br>
                         <a href="/shopping-cart" class="btn btn-primary btn-block">View cart</a>
                     </div>
                 </li>
@@ -48,15 +49,14 @@
                 </select>
             </div>
 
-
-
-
-
-
-
             <c:if test="${empty sessionScope.userName}">
                 <a href="/loginPage" class="btn btn-primary navbar-btn navbar-right sign-in">
                     <i class="fa-sign-in-alt" aria-hidden="true"></i><fmt:message key="sign.in"/> </a>
+            </c:if>
+
+            <c:if test="${not empty sessionScope.userName}">
+                <a href="/my-orders" class="btn btn-primary navbar-btn navbar-right sign-in">
+                    <i class="fa-sign-in-alt" aria-hidden="true"></i>My Orders</a>
             </c:if>
 
             <c:if test="${not empty sessionScope.userName}">

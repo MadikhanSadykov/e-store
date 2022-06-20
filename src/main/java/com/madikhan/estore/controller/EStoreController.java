@@ -2,9 +2,6 @@ package com.madikhan.estore.controller;
 
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.action.factory.ActionFactory;
-import com.madikhan.estore.service.OrderService;
-import com.madikhan.estore.service.ProductService;
-import com.madikhan.estore.service.impl.ServiceManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +14,9 @@ public class EStoreController extends HttpServlet {
 
     private static final long serialVersionUID = -3530914552001424135L;
 
-
-
     public EStoreController() {
 
     }
-
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

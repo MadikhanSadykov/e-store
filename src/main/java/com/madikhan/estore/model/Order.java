@@ -9,17 +9,20 @@ public class Order extends AbstractModel<Long> {
     private static final long serialVersionUID = 2937379598362283529L;
 
     private List<OrderItem> orderItems;
+    private BigDecimal totalCost;
     private Timestamp created;
     private Timestamp finished;
     private Long idUser;
     private Integer idStatus;
+    private String status;
 
     public Order() {
         super();
     }
 
-    public Order(List<OrderItem> orderItems, Timestamp created, Timestamp finished, Long idUser, Integer idStatus) {
+    public Order(List<OrderItem> orderItems, BigDecimal totalCost, Timestamp created, Timestamp finished, Long idUser, Integer idStatus) {
         this.orderItems = orderItems;
+        this.totalCost = totalCost;
         this.created = created;
         this.finished = finished;
         this.idUser = idUser;
@@ -32,6 +35,10 @@ public class Order extends AbstractModel<Long> {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public void setTotalCost(BigDecimal totalCost) {
+        this.totalCost = totalCost;
     }
 
     public Timestamp getCreated() {
@@ -66,7 +73,7 @@ public class Order extends AbstractModel<Long> {
         this.idStatus = idStatus;
     }
 
-    public BigDecimal getTotalCost() {
+    public BigDecimal getTotalCostItems() {
         BigDecimal totalCost = BigDecimal.ZERO;
         if (orderItems != null) {
             for (OrderItem item : orderItems) {
@@ -76,6 +83,17 @@ public class Order extends AbstractModel<Long> {
         return totalCost;
     }
 
+    public BigDecimal getTotalCost() {
+        return totalCost;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {

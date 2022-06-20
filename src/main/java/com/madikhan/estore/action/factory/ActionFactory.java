@@ -3,10 +3,9 @@ package com.madikhan.estore.action.factory;
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.action.impl.RegistrationPageAction;
 import com.madikhan.estore.action.impl.*;
-import com.madikhan.estore.action.impl.ajax.LoadMoreProductsAction;
-import com.madikhan.estore.action.impl.ajax.LoadMoreProductsByCategoryAction;
-import com.madikhan.estore.action.impl.ajax.LoadMoreSearchAction;
+import com.madikhan.estore.action.impl.ajax.*;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,14 +27,18 @@ public class ActionFactory {
         URL_PATH_ACTION_MAP.put("/profileUpdate", new UpdateUserAction());
         URL_PATH_ACTION_MAP.put("/changeProfile", new ChangeProfilePageAction());
         URL_PATH_ACTION_MAP.put("/changeLang", new ChangeLanguageAction());
-        URL_PATH_ACTION_MAP.put("/null", null);
         URL_PATH_ACTION_MAP.put("/more/products", new LoadMoreProductsAction());
         URL_PATH_ACTION_MAP.put("/more/productsByCategory/*", new LoadMoreProductsByCategoryAction());
         URL_PATH_ACTION_MAP.put("/productsByCategory/*", new ProductsByCategoryAction());
         URL_PATH_ACTION_MAP.put("/search", new SearchAction());
         URL_PATH_ACTION_MAP.put("/more/search", new LoadMoreSearchAction());
-        URL_PATH_ACTION_MAP.put("/ajax/html/more/search", new LoadMoreSearchAction());
         URL_PATH_ACTION_MAP.put("/shopping-cart", new ShoppingCartAction());
+        URL_PATH_ACTION_MAP.put("/product/add", new AddProductToCartAction());
+        URL_PATH_ACTION_MAP.put("/product/remove", new RemoveProductFromCartAction());
+        URL_PATH_ACTION_MAP.put("/my-orders", new MyOrdersPageAction());
+        URL_PATH_ACTION_MAP.put("/create-order", new CreateOrderAction());
+        URL_PATH_ACTION_MAP.put("/order", new OrderPageAction());
+        URL_PATH_ACTION_MAP.put("/more/my-orders", new LoadMoreMyOrdersAction());
     }
 
     public Action getAction(String requestURI) {

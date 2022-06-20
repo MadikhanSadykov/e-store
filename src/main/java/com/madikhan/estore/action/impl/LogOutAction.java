@@ -1,6 +1,7 @@
 package com.madikhan.estore.action.impl;
 
 import com.madikhan.estore.action.Action;
+import com.madikhan.estore.util.SessionUtil;
 
 import static com.madikhan.estore.constants.NamesConstants.*;
 
@@ -16,9 +17,7 @@ public class LogOutAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        HttpSession session = request.getSession(true);
-        RequestDispatcher dispatcher;
-
+        SessionUtil.clearCurrentUser(request, response);
         request.getSession().invalidate();
         response.sendRedirect(HOME_PAGE_PATH);
     }

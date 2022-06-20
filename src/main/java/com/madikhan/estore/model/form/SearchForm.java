@@ -1,4 +1,4 @@
-package com.madikhan.estore.model.search;
+package com.madikhan.estore.model.form;
 
 import java.util.ArrayList;
 import java.util.Collections;

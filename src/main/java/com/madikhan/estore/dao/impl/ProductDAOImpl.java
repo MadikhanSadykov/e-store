@@ -3,9 +3,11 @@ package com.madikhan.estore.dao.impl;
 import com.madikhan.estore.dao.ProductDAO;
 import com.madikhan.estore.exception.InternalServerErrorException;
 import com.madikhan.estore.jdbc.ConnectionPool;
+import com.madikhan.estore.model.Cart;
 import com.madikhan.estore.model.Product;
-import com.madikhan.estore.model.search.SearchForm;
-import com.madikhan.estore.model.search.SearchQuery;
+import com.madikhan.estore.model.form.ProductForm;
+import com.madikhan.estore.model.form.SearchForm;
+import com.madikhan.estore.model.form.SearchQuery;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +22,7 @@ public class ProductDAOImpl implements ProductDAO {
             "(name, description, image_link, price, id_category, id_producer) VALUES (?,?,?,?,?,?)";
     private static final String SELECT_PRODUCT_BY_ID = "SELECT p.*, c.name as category, pr.name as producer " +
             "FROM product p, producer pr, category c WHERE c.id = p.id_category AND pr.id = p.id_producer " +
-            " AND p.id = ?";
+            " AND p.id = ? AND c.id_language = ? ";
     private static final String SELECT_ALL_PRODUCTS_WITH_LIMIT = "SELECT p.*, c.name as category, pr.name as producer " +
             "FROM product p, producer pr, category c WHERE c.id = p.id_category AND c.id_language = ? AND pr.id = p.id_producer " +
             " ORDER BY p.id LIMIT ? OFFSET ?";
@@ -115,21 +117,29 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public Product getByID(Long id) throws SQLException {
+    public Product getByID(Long id, int languageID) throws SQLException {
         Product product = null;
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_ID)) {
             preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, languageID);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product = new Product();
                 setResultSetToProduct(product, resultSet);
+            } else {
+                throw new InternalServerErrorException("Product not found by id = " + id);
             }
         } finally {
             connectionPool.bringBackConnection(connection);
         }
         return product;
+    }
+
+    @Override
+    public Product getByID(Long id) throws SQLException {
+        return null;
     }
 
     @Override
@@ -230,13 +240,6 @@ public class ProductDAOImpl implements ProductDAO {
         searchQuery.getParams().add(limitOfProducts);
         searchQuery.getParams().add(offset);
         try (PreparedStatement preparedStatement = connection.prepareStatement(searchQuery.getSql().toString())) {
-            System.out.println(searchQuery.getSql().toString());
-            System.out.println(searchQuery.getSql().toString());
-            System.out.println(searchQuery.getSql().toString());
-            System.out.println(searchQuery.getSql().toString());
-            System.out.println(searchQuery.getSql().toString());
-            System.out.println(searchQuery.getSql().toString());
-
             populatePreparedStatement(preparedStatement, searchQuery.getParams().toArray());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -270,6 +273,12 @@ public class ProductDAOImpl implements ProductDAO {
             connectionPool.bringBackConnection(connection);
         }
         return count;
+    }
+
+    @Override
+    public void addProductToCart(ProductForm productForm, Cart cart, Boolean isPersisted, int languageID) throws SQLException {
+        Product product = getByID(productForm.getIdProduct(), languageID);
+        cart.addProduct(product, productForm.getProductCount(), isPersisted);
     }
 
     @Override

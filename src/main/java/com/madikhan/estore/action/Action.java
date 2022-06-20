@@ -1,6 +1,7 @@
 package com.madikhan.estore.action;
 
-import com.madikhan.estore.model.search.SearchForm;
+import com.madikhan.estore.model.form.ProductForm;
+import com.madikhan.estore.model.form.SearchForm;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,12 @@ public interface Action {
                 request.getParameter("query"),
                 request.getParameterValues("category"),
                 request.getParameterValues("producer"));
+    }
+
+    default ProductForm createProductForm(HttpServletRequest request) {
+        return new ProductForm(
+                Long.parseLong(request.getParameter("idProduct")),
+                Integer.parseInt(request.getParameter("productCount")));
     }
 
 }

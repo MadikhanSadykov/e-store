@@ -1,16 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: sssad
-  Date: 5/17/2022
-  Time: 5:22 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Error</title>
-</head>
-<body>
-Error
-</body>
-</html>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<div class="alert alert-danger hidden-print" role="alert">
+    <h1>Code: ${statusCode }</h1>
+    <c:choose>
+        <c:when test="${statusCode == 403}">You don't have permissions to view this resource</c:when>
+        <c:when test="${statusCode == 404}">Requested resource not found</c:when>
+        <c:otherwise>Can't process this request! Try again later...</c:otherwise>
+    </c:choose>
+</div>

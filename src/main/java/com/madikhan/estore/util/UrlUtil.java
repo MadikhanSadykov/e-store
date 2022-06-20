@@ -7,15 +7,15 @@ public class UrlUtil {
     }
 
     public static boolean isAjaxUrl(String url) {
-        return url.startsWith("/ajax/");
+        return url.startsWith("/more/");
     }
 
     public static boolean isAjaxJsonUrl(String url) {
-        return url.startsWith("/ajax/json/");
+        return url.startsWith("/more/");
     }
 
     public static boolean isAjaxHtmlUrl(String url) {
-        return url.startsWith("/ajax/html/");
+        return url.startsWith("/more/");
     }
 
     public static boolean isStaticUrl(String url) {
