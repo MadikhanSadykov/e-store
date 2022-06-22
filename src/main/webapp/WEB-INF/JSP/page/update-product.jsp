@@ -69,7 +69,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-3">
-                <button type="submit" class="btn btn-success"> <fmt:message key="update"/a> </button>
+                <button type="submit" class="btn btn-success"> <fmt:message key="update" /> </button>
             </div>
         </div>
     </form>

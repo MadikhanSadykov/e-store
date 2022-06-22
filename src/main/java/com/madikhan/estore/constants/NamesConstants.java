@@ -132,6 +132,7 @@ public class NamesConstants {
     public static final String ERROR_PAGE_PATH ="/error";
     public static final String MEDIA_FOLDER_PATH = "/media";
     public static final String PRODUCTS_PATH = "/products";
+    public static final String LOGIN_PAGE_PATH = "/loginPage";
     public static final String REGISTRATION_PAGE_PATH = "/registrationPage";
     public static final String PRODUCTS_BY_CATEGORY_PATH = "/productsByCategory";
     public static final String ADMIN_PRODUCTS_PAGE_PATH = "/adminProductsPage";

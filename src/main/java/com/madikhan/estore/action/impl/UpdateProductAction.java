@@ -53,7 +53,7 @@ public class UpdateProductAction implements Action {
                 product.setCategory(category.getName());
 
                 productService.update(product.getId(), product);
-                RoutingUtil.redirect(ADMIN_PRODUCTS_JSP, request, response);
+                RoutingUtil.redirect(ADMIN_PRODUCTS_PAGE_PATH, request, response);
             } else {
                 request.setAttribute(PRODUCT_UPDATE_ERROR, PRODUCT_UPDATE_ERROR_CAUSE);
                 RequestDispatcher dispatcher;

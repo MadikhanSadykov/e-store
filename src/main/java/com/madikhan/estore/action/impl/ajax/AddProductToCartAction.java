@@ -35,11 +35,11 @@ public class AddProductToCartAction implements Action {
         ProductForm productForm = createProductForm(request);
         Cart cart = SessionUtil.getCurrentShoppingCart(request);
         boolean isPersisted = false;
-        User user = (User) session.getAttribute(CURRENT_USER);
+        User user = SessionUtil.getCurrentUser(request);
 
         if (user != null) {
-            cart.setIdUser((Long) session.getAttribute(USER_ID_ATTRIBUTE));
-            cartService.save((Long) session.getAttribute(USER_ID_ATTRIBUTE), productForm);
+            cart.setIdUser(user.getId());
+            cartService.save(user.getId(), productForm);
             isPersisted = true;
         }
 

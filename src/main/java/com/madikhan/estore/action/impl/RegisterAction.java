@@ -6,6 +6,7 @@ import com.madikhan.estore.action.Action;
 import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
+import com.madikhan.estore.util.RoutingUtil;
 import com.madikhan.estore.util.SessionUtil;
 import com.madikhan.estore.validator.AuthenticationValidator;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -49,9 +50,7 @@ public class RegisterAction implements Action {
             } else {
                 User user = fillUser(request);
                 userService.save(user);
-                SessionUtil.setCurrentUser(request, user);
-                dispatcher = request.getRequestDispatcher(HOME_PAGE_PATH);
-                dispatcher.forward(request, response);
+                RoutingUtil.redirect(LOGIN_PAGE_PATH, request, response);
             }
         } else {
             request.setAttribute(PASSWORD_IS_WRONG, PASSWORD_DOES_NOT_MATCH_MESSAGE);

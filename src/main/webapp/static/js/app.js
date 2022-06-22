@@ -332,7 +332,7 @@
 				if (xhr.status == 400) {
 					alert(xhr.responseJSON.message);
 				} else {
-					alert('Error');
+					alert(xhr.status + xhr.message);
 				}
 			}
 		});
