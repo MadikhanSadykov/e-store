@@ -1,1 +1,1 @@
-web: java -war e-store-master.war
+web: java $JAVA_OPTS -war e-store-master.war --port $PORT *.war
