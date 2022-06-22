@@ -49,7 +49,7 @@
                 </select>
             </div>
 
-            <c:if test="${empty sessionScope.userName}">
+            <c:if test="${empty sessionScope.CURRENT_USER.name}">
                 <a href="/loginPage" class="btn btn-primary navbar-btn navbar-right sign-in">
                     <i class="fa-sign-in-alt" aria-hidden="true"></i><fmt:message key="sign.in"/> </a>
             </c:if>

@@ -6,6 +6,7 @@ import com.madikhan.estore.action.Action;
 import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
+import com.madikhan.estore.util.SessionUtil;
 import com.madikhan.estore.validator.AuthenticationValidator;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -48,11 +49,7 @@ public class RegisterAction implements Action {
             } else {
                 User user = fillUser(request);
                 userService.save(user);
-                session.setAttribute(USER_ID_ATTRIBUTE, user.getId());
-                session.setAttribute(USER_NAME_ATTRIBUTE, user.getName());
-                session.setAttribute(USER_EMAIL_ATTRIBUTE, user.getEmail());
-                session.setAttribute(IS_ADMIN, user.getIsAdmin());
-
+                SessionUtil.setCurrentUser(request, user);
                 dispatcher = request.getRequestDispatcher(HOME_PAGE_PATH);
                 dispatcher.forward(request, response);
             }
