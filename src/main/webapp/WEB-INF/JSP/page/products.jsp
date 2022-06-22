@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="language" />
 
 <div id="productList" data-page-count="${requestScope.pageCount}" data-page-number="1">
 
@@ -13,7 +15,7 @@
     <c:if test="${requestScope.pageCount > 1}" >
         <div class="text-center hidden-print">
             <img id="loadMoreIndicator" src="${pageContext.request.contextPath}/static/img/loading.gif" class="hidden" alt="Loading...">
-            <a id="loadMore" class="btn btn-primary btn-lg btn-block"><b>Load more products</b></a>
+            <a id="loadMore" class="btn btn-primary btn-lg btn-block"><b><fmt:message key="load.more.products"/> </b></a>
         </div>
     </c:if>
 </div>

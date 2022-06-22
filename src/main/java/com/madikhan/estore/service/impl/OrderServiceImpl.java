@@ -40,7 +40,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long countMyOrders(Long userID) {
+    public Long countUserOrders(Long userID) {
         return orderDAO.getCountOrdersByUserID(userID);
+    }
+
+    @Override
+    public void updateStatus(Long orderID, Integer statusID) {
+        orderDAO.updateStatus(orderID, statusID);
+    }
+
+    @Override
+    public List<Order> listAllOrdersWithLimit(Long page, Integer limit, Integer languageID) {
+        return orderDAO.listAllOrdersWithLimit(page, limit, languageID);
+    }
+
+    @Override
+    public Long countAllOrders() {
+        return orderDAO.countAllOrders();
     }
 }

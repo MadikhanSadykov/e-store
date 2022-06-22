@@ -1,10 +1,12 @@
 package com.madikhan.estore.action.impl;
 
+import static com.madikhan.estore.constants.NamesConstants.*;
+
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
-import com.madikhan.estore.util.RoutingUtil;
+import com.madikhan.estore.util.SessionUtil;
 import com.madikhan.estore.validator.AuthenticationValidator;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -16,19 +18,16 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static com.madikhan.estore.constants.NamesConstants.*;
-
 public class UpdateUserAction implements Action {
 
     private UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        HttpSession session = request.getSession(true);
-        RequestDispatcher dispatcher;
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
 
+        RequestDispatcher dispatcher;
         Long userID = Long.valueOf(request.getParameter(USER_ID_ATTRIBUTE));
-        String email = request.getParameter(EMAIL);
         String newPassword = request.getParameter(NEW_PASSWORD);
         String confirmNewPassword = request.getParameter(CONFIRM_NEW_PASSWORD);
         String password = request.getParameter(PASSWORD);
@@ -77,18 +76,18 @@ public class UpdateUserAction implements Action {
                 return;
             }
 
-
-
-
+            if (!AuthenticationValidator.isPhoneNumberValid(request.getParameter(PHONE_NUMBER))) {
+                request.setAttribute(PHONE_NUMBER_WRONG_FORMAT, PHONE_NUMBER_WRONG_FORMAT_MESSAGE);
+                request.setAttribute(PHONE_NUMBER, request.getParameter(PHONE_NUMBER));
+                dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
+                dispatcher.forward(request, response);
+                return;
+            }
 
             User user = fillUser(request, encodedPassword);
             userService.update(userID, user);
-            session.setAttribute(USER_ID_ATTRIBUTE, user.getId());
-            session.setAttribute(USER_NAME_ATTRIBUTE, user.getName());
-            session.setAttribute(USER_SURNAME_ATTRIBUTE, user.getSurname());
-            session.setAttribute(USER_EMAIL_ATTRIBUTE, user.getEmail());
-            session.setAttribute(USER_PHONE_NUMBER_ATTRIBUTE, user.getPhoneNumber());
-            session.setAttribute(USER_ADDRESS_ATTRIBUTE, user.getAddress());
+            SessionUtil.clearCurrentUser(request,response);
+            SessionUtil.setCurrentUser(request, user);
 
             dispatcher = request.getRequestDispatcher(PROFILE_PAGE_PATH);
             dispatcher.forward(request, response);
@@ -97,14 +96,11 @@ public class UpdateUserAction implements Action {
             dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
             dispatcher.forward(request, response);
         }
-
-
-
     }
 
     private User fillUser(HttpServletRequest request, String encodedPassword) {
         User user = new User();
-
+        User currentUser = SessionUtil.getCurrentUser(request);
         user.setId(Long.valueOf(request.getParameter(USER_ID_ATTRIBUTE)));
         user.setName(request.getParameter(NAME));
         if (!request.getParameter(SURNAME).equals("")) {
@@ -128,7 +124,7 @@ public class UpdateUserAction implements Action {
             user.setAddress(null);
         }
         user.setPassword(encodedPassword);
-        user.setIsAdmin(USER_ROLE);
+        user.setIsAdmin(currentUser.getIsAdmin());
         return user;
     }
 }

@@ -18,22 +18,20 @@ import java.util.List;
 
 public class  ProductsAction implements Action {
 
-    private ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
         HttpSession session = request.getSession(true);
-        Integer languageID = (Integer) session.getAttribute("languageID");
-        List<Product> products = null;
-        try {
-            products = productService.listAllProducts((long) 1, MAX_PRODUCTS_PER_HTML_PAGE, languageID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("products", products);
+        Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
+        List<Product> products = productService.listAllProducts(NUMBER_OF_FIRST_PAGE, MAX_PRODUCTS_PER_HTML_PAGE, languageID);
+
+        request.setAttribute(PRODUCTS, products);
         Long totalCount = productService.countAllProducts();
-        request.setAttribute("pageCount", getPageCount(totalCount, MAX_PRODUCTS_PER_HTML_PAGE ));
-        RoutingUtil.forwardToPage("products.jsp", request, response);
+        request.setAttribute(PAGE_COUNT, getPageCount(totalCount, MAX_PRODUCTS_PER_HTML_PAGE ));
+        RoutingUtil.forwardToPage(PRODUCTS_JSP, request, response);
     }
 
 }

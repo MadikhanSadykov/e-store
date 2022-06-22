@@ -12,8 +12,8 @@
     </welcome-file-list>
 
     <filter>
-        <filter-name>EncodingFilter</filter-name>
-        <filter-class>com.madikhan.estore.filter.EncodingFilter</filter-class>
+        <filter-name>EncodingAndLanguageFilter</filter-name>
+        <filter-class>com.madikhan.estore.filter.EncodingAndLanguageFilter</filter-class>
         <init-param>
             <param-name>defaultLanguageID</param-name>
             <param-value>2</param-value>
@@ -24,7 +24,7 @@
         </init-param>
     </filter>
     <filter-mapping>
-        <filter-name>EncodingFilter</filter-name>
+        <filter-name>EncodingAndLanguageFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -43,15 +43,6 @@
     </filter>
     <filter-mapping>
         <filter-name>ErrorHandlerFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>TrimResponseFilter</filter-name>
-        <filter-class>com.madikhan.estore.filter.TrimResponseFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>TrimResponseFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -118,7 +109,5 @@
     <session-config>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
-
-
 
 </web-app>

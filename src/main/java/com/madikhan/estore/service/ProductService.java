@@ -33,6 +33,11 @@ public interface ProductService {
 
     String serializeCart(Cart cart);
 
-    Cart deserializeCart(String string, int languageID) throws SQLException ;
+    Cart deserializeCart(String string, int languageID) throws SQLException;
 
+    void save(Product product) throws SQLException;
+
+    void delete(Long productID) throws SQLException;
+
+    void update(Long productID, Product product) throws SQLException;
 }

@@ -20,11 +20,12 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     private static final String INSERT_ORDER_ITEM = "INSERT INTO order_item(product_count, cost, id_order, id_product) " +
             "VALUES (?,?,?,?)";
     private static final String SELECT_ALL_BY_ORDER_ID = "SELECT * FROM order_item WHERE id_order = ?";
+    private static final String SELECT_COUNT_BY_PRODUCT_ID = "SELECT count(*) as count FROM order_item WHERE id_product = ?";
 
     private static OrderItemDAO instance;
     private ConnectionPool connectionPool;
     private Connection connection;
-    private ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     private OrderItemDAOImpl() {
         super();
@@ -83,6 +84,25 @@ public class OrderItemDAOImpl implements OrderItemDAO {
             connectionPool.bringBackConnection(connection);
         }
         return orderItems;
+    }
+
+    @Override
+    public Long countOrderItemByProductID(Long productID) {
+        Long count = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COUNT_BY_PRODUCT_ID)){
+            preparedStatement.setLong(1, productID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getLong("count");
+            }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return count;
     }
 
     @Override

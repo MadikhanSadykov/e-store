@@ -24,11 +24,13 @@ public class LoadMoreMyOrdersAction implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException,
             ServletException {
+
         User user = SessionUtil.getCurrentUser(request);
-        Integer languageID = (Integer) request.getSession().getAttribute("languageID");
+        Integer languageID = (Integer) request.getSession(true).getAttribute(LANGUAGE_ID);
         List<Order> orders = orderService.listAllOrdersByUserID(user.getId(), getPage(request), MAX_ORDERS_PER_HTML_PAGE,
                 languageID);
-        request.setAttribute("orders", orders);
-        RoutingUtil.forwardToFragment("my-orders-tbody.jsp", request, response);
+        request.setAttribute(ORDERS, orders);
+        RoutingUtil.forwardToFragment(MY_ORDERS_TBODY_JSP, request, response);
+
     }
 }

@@ -11,4 +11,6 @@ public interface OrderItemDAO extends DAO<OrderItem> {
 
     List<OrderItem> getAllByOrderID(Long orderID);
 
+    Long countOrderItemByProductID(Long productID);
+
 }

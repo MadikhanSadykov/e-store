@@ -3,10 +3,8 @@ package com.madikhan.estore.dao.impl;
 import com.madikhan.estore.dao.ProducerDAO;
 import com.madikhan.estore.exception.InternalServerErrorException;
 import com.madikhan.estore.jdbc.ConnectionPool;
-import com.madikhan.estore.model.Category;
 import com.madikhan.estore.model.Producer;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +19,7 @@ public class ProducerDAOImpl implements ProducerDAO {
     private static ProducerDAO instance;
 
     private static final String SELECT_ALL_PRODUCERS = "SELECT * FROM producer ORDER BY name";
+    private static final String SELECT_BY_ID = "SELECT * FROM producer WHERE id = ?";
 
     private ProducerDAOImpl(){
         super();
@@ -40,13 +39,23 @@ public class ProducerDAOImpl implements ProducerDAO {
     }
 
     @Override
-    public void create(Producer object) throws SQLException {
-
-    }
-
-    @Override
-    public Producer getByID(Long id) throws SQLException {
-        return null;
+    public Producer getByID(Long producerID) throws SQLException {
+        Producer producer = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID)){
+             preparedStatement.setLong(1, producerID);
+             ResultSet resultSet = preparedStatement.executeQuery();
+             if (resultSet.next()) {
+                 producer = new Producer();
+                 setResultSetToProducer(producer, resultSet);
+             }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return producer;
     }
 
     @Override
@@ -76,6 +85,11 @@ public class ProducerDAOImpl implements ProducerDAO {
 
     @Override
     public void delete(Long id) throws SQLException {
+
+    }
+
+    @Override
+    public void create(Producer object) throws SQLException {
 
     }
 }

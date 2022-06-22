@@ -5,7 +5,6 @@ import com.madikhan.estore.action.impl.RegistrationPageAction;
 import com.madikhan.estore.action.impl.*;
 import com.madikhan.estore.action.impl.ajax.*;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +38,24 @@ public class ActionFactory {
         URL_PATH_ACTION_MAP.put("/create-order", new CreateOrderAction());
         URL_PATH_ACTION_MAP.put("/order", new OrderPageAction());
         URL_PATH_ACTION_MAP.put("/more/my-orders", new LoadMoreMyOrdersAction());
+        URL_PATH_ACTION_MAP.put("/adminPage", new AdminPageAction());
+        URL_PATH_ACTION_MAP.put("/adminUsersPage", new AdminUsersPageAction());
+        URL_PATH_ACTION_MAP.put("/adminProductsPage", new AdminProductsPageAction());
+        URL_PATH_ACTION_MAP.put("/adminOrdersPage", new AdminOrdersPage());
+        URL_PATH_ACTION_MAP.put("/user/isAdmin", new MarkUserAsAdmin());
+        URL_PATH_ACTION_MAP.put("/user/notAdmin", new MarkUserNotAdmin());
+        URL_PATH_ACTION_MAP.put("/user/delete", new DeleteUserAction());
+        URL_PATH_ACTION_MAP.put("/updateProduct", new UpdateProductAction());
+        URL_PATH_ACTION_MAP.put("/updateProductPage", new UpdateProductPageAction());
+        URL_PATH_ACTION_MAP.put("/createProduct", new CreateProductAction());
+        URL_PATH_ACTION_MAP.put("/createProductPage", new CreateProductPageAction());
+        URL_PATH_ACTION_MAP.put("/more/adminProductsPage", new LoadMoreProductsForAdmin());
+        URL_PATH_ACTION_MAP.put("/more/adminUsersPage", new LoadMoreUsersForAdmin());
+        URL_PATH_ACTION_MAP.put("/more/adminOrdersPage", new LoadMoreOrdersForAdmin());
+        URL_PATH_ACTION_MAP.put("/product/delete", new DeleteProductAction());
+        URL_PATH_ACTION_MAP.put("/order/complete", new CompleteOrderAction());
+        URL_PATH_ACTION_MAP.put("/order/cancel", new CancelOrderAction());
+        URL_PATH_ACTION_MAP.put("/error", new ErrorAction());
     }
 
     public Action getAction(String requestURI) {

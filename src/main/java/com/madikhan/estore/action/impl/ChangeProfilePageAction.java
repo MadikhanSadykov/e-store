@@ -1,5 +1,7 @@
 package com.madikhan.estore.action.impl;
 
+import static com.madikhan.estore.constants.NamesConstants.*;
+
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.util.RoutingUtil;
 
@@ -10,8 +12,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ChangeProfilePageAction implements Action {
+
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        RoutingUtil.forwardToPage("change-profile.jsp", request, response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
+        RoutingUtil.forwardToPage(CHANGE_PROFILE_JSP, request, response);
+
     }
 }

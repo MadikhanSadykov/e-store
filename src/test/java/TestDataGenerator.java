@@ -1,3 +1,5 @@
+import com.madikhan.estore.model.Status;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -9,16 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class TestDataGenerator {
     private static final String JDBC_URL = "jdbc:postgresql://localhost/estore";
@@ -72,8 +65,50 @@ public class TestDataGenerator {
             c.setAutoCommit(false);
             clearDb(c);
             Map<String, Integer> producerIdMap = insertProducers(c, producers);
-            Map<String, Integer> categoryIdMap = insertCategories(c, categories);
+            Map<String, Integer> categoryIdMap = insertCategories(c, categories, 1);
             insertProducts(c, categories, categoryIdMap, producerIdMap);
+
+            List<Category> ruLangCategories = categories;
+            Map<String, String> englishRussianCategoryName = new HashMap<>();
+            englishRussianCategoryName.put("E-book", "Электронная книга");
+            englishRussianCategoryName.put("Laptop", "Ноутбук");
+            englishRussianCategoryName.put("Mp3-player", "Mp3-плеер");
+            englishRussianCategoryName.put("Phone", "Телефон");
+            englishRussianCategoryName.put("SmartPhone", "Смартфон");
+            englishRussianCategoryName.put("SmartWatch", "Смартчасы");
+            englishRussianCategoryName.put("Tablet", "Планшет");
+            for (Category category : ruLangCategories) {
+                category.setName(englishRussianCategoryName.get(category.getName()));
+            }
+
+            List<Status> statuses = new ArrayList<>();
+
+            Status statusProcessingEn = new Status("Processing", 1);
+            statusProcessingEn.setId(1);
+            statuses.add(statusProcessingEn);
+
+            Status statusCompletedEn = new Status("Completed", 1);
+            statusCompletedEn.setId(2);
+            statuses.add(statusCompletedEn);
+
+            Status statusCanceledEn = new Status("Canceled", 1);
+            statusCanceledEn.setId(3);
+            statuses.add(statusCanceledEn);
+
+            Status statusProcessingRu = new Status("Обработка", 2);
+            statusProcessingRu.setId(1);
+            statuses.add(statusProcessingRu);
+
+            Status statusCompletedRu = new Status("Завершен", 2);
+            statusCompletedRu.setId(2);
+            statuses.add(statusCompletedRu);
+
+            Status statusCanceledRu = new Status("Отменен", 2);
+            statusCanceledRu.setId(3);
+            statuses.add(statusCanceledRu);
+
+            insertStatus(c, statuses);
+            insertCategories(c, ruLangCategories, 2);
             c.commit();
         } catch (SQLException e) {
             if (e.getNextException() != null) {
@@ -157,20 +192,38 @@ public class TestDataGenerator {
         return idMap;
     }
 
-    private static Map<String, Integer> insertCategories(Connection c, List<Category> categories) throws Exception {
-        Map<String, Integer> idMap = new HashMap<>();
+    private static void insertStatus(Connection c, List<Status> statuses) throws Exception {
         int i = 1;
-        try (PreparedStatement ps = c.prepareStatement("insert into category(name,url,product_count,id_language) values (?,?,?,?)")) {
-            for (Category category : categories) {
-                idMap.put(category.name, i++);
-                ps.setString(1, capitalize(category.name));
-                ps.setString(2, "/" + category.name.toLowerCase().trim());
-                ps.setInt(3, category.getProductCount());
-                ps.setInt(4, 1);
+        try (PreparedStatement ps = c.prepareStatement("insert into producer(name,product_count) values (?,?)")) {
+            for (Status status : statuses) {
+                ps.setInt(1, status.getId());
+                ps.setString(2, status.getName());
+                ps.setInt(3, status.getIdLanguage());
                 ps.addBatch();
             }
             ps.executeBatch();
         }
+        System.out.println("Inserted statuses");
+
+    }
+
+    private static Map<String, Integer> insertCategories(Connection c, List<Category> categories, Integer languageID) throws Exception {
+        Map<String, Integer> idMap = new HashMap<>();
+        int i = 1;
+        try (PreparedStatement ps = c.prepareStatement("insert into category(id, name,url,product_count,id_language) values (?,?,?,?,?)")) {
+            for (Category category : categories) {
+                idMap.put(category.name, i);
+                ps.setLong(1, i);
+                ps.setString(1, capitalize(category.name));
+                ps.setString(2, "/" + category.name.toLowerCase().trim());
+                ps.setInt(3, category.getProductCount());
+                ps.setInt(4, languageID);
+                i++;
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+        i = 0;
         System.out.println("Inserted " + categories.size() + " categories");
         return idMap;
     }
@@ -187,8 +240,7 @@ public class TestDataGenerator {
 
     private static void insertProducts(Connection c, List<Category> categories, Map<String, Integer> categoryIdMap, Map<String, Integer> producerIdMap) throws SQLException, IOException {
         List<Product> products = generateProducts(categories, categoryIdMap, producerIdMap);
-        int i = 278009;
-        try (PreparedStatement ps = c.prepareStatement("insert into product(name,description,image_link,price,id_category,id_producer,id_language) values (?,?,?,?,?,?,?)")) {
+        try (PreparedStatement ps = c.prepareStatement("insert into product(name,description,image_link,price,id_category,id_producer) values (?,?,?,?,?,?)")) {
             for (Product product : products) {
                 ps.setString(1, product.name);
                 ps.setString(2, generateProductDescription(product.category));
@@ -196,9 +248,7 @@ public class TestDataGenerator {
                 ps.setInt(4, RANDOM.nextInt(300) * 10);
                 ps.setInt(5, product.idCategory);
                 ps.setInt(6, product.idProducer);
-                ps.setInt(7,1);
                 ps.addBatch();
-                i += RANDOM.nextInt(10) + 1;
             }
             ps.executeBatch();
         }
@@ -370,9 +420,10 @@ public class TestDataGenerator {
 
 
     private static class Category implements Comparable<Category> {
-        final String name;
+        String name;
         final File imageFile;
         final List<Producer> producers;
+        Integer languageID = 1;
 
         Category(String name, File imageFile) {
             super();
@@ -405,6 +456,18 @@ public class TestDataGenerator {
                 res += p.productCount;
             }
             return res;
+        }
+
+        public void setLanguageID(Integer langID) {
+            languageID = langID;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String newName) {
+            name = newName;
         }
 
         @Override

@@ -1,5 +1,7 @@
 package com.madikhan.estore.action.impl;
 
+import static com.madikhan.estore.constants.NamesConstants.*;
+
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.service.LanguageService;
 import com.madikhan.estore.service.impl.LanguageServiceImpl;
@@ -13,16 +15,16 @@ import java.sql.SQLException;
 
 public class ChangeLanguageAction implements Action {
 
-    private LanguageService languageService = LanguageServiceImpl.getInstance();
+    private final LanguageService languageService = LanguageServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
         HttpSession session = request.getSession(true);
+        String newLanguage = request.getParameter(NEW_LANGUAGE);
+        session.setAttribute(LANGUAGE, newLanguage);
+        session.setAttribute(LANGUAGE_ID, languageService.getLanguageID(newLanguage));
 
-        String newLanguage = request.getParameter("lang");
-//        String newLanguageID = request.getParameter("languageID");
-
-        session.setAttribute("language", newLanguage);
-        session.setAttribute("languageID", languageService.getLanguageID(newLanguage));
     }
 }

@@ -11,7 +11,9 @@ public class Product extends AbstractModel<Long> {
     private String imageLink;
     private BigDecimal price;
     private String category;
+    private Long categoryID;
     private String producer;
+    private Long producerID;
 
     public Product() {
         super();
@@ -72,6 +74,22 @@ public class Product extends AbstractModel<Long> {
 
     public void setProducer(String producer) {
         this.producer = producer;
+    }
+
+    public Long getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(Long categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public Long getProducerID() {
+        return producerID;
+    }
+
+    public void setProducerID(Long producerID) {
+        this.producerID = producerID;
     }
 
     @Override

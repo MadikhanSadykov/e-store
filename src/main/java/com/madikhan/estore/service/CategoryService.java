@@ -9,4 +9,6 @@ public interface CategoryService {
 
     List<Category> listAllCategories(Integer languageID) throws SQLException;
 
+    Category getByID(Long categoryID) throws SQLException;
+
 }

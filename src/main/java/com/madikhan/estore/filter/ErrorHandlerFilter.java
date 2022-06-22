@@ -1,5 +1,7 @@
 package com.madikhan.estore.filter;
 
+import static com.madikhan.estore.constants.NamesConstants.*;
+
 import com.madikhan.estore.exception.*;
 import com.madikhan.estore.util.RoutingUtil;
 import com.madikhan.estore.util.UrlUtil;
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 public class ErrorHandlerFilter extends AbstractFilter {
-    private static final String INTERNAL_ERROR = "Internal error";
 
     @Override
     public void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -23,7 +24,7 @@ public class ErrorHandlerFilter extends AbstractFilter {
         } catch (Throwable th) {
             String requestUrl = req.getRequestURI();
             if (th instanceof ValidationException) {
-                LOGGER.warn("Request is not valid: " + th.getMessage());
+                LOGGER.warn(REQUEST_NOT_VALID_MESSAGE + th.getMessage());
             } else {
                 LOGGER.error("Request " + requestUrl + " failed: " + th.getMessage(), th);
             }
@@ -39,18 +40,20 @@ public class ErrorHandlerFilter extends AbstractFilter {
         }
     }
 
-    private void handleException(String requestUrl, Throwable th, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void handleException(String requestUrl, Throwable th, HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         int statusCode = getStatusCode(th);
         resp.setStatus(statusCode);
         if (UrlUtil.isAjaxJsonUrl(requestUrl)) {
             JSONObject json = new JSONObject();
-            json.put("message", th instanceof ValidationException ? th.getMessage() : INTERNAL_ERROR);
+            json.put(MESSAGE, th instanceof ValidationException ? th.getMessage() : INTERNAL_ERROR);
             RoutingUtil.sendJSON(json, req, resp);
         } else if (UrlUtil.isAjaxHtmlUrl(requestUrl)) {
             RoutingUtil.sendHTMLFragment(INTERNAL_ERROR, req, resp);
         } else {
-            req.setAttribute("statusCode", statusCode);
-            RoutingUtil.forwardToPage("error.jsp", req, resp);
+            req.setAttribute(STATUS_CODE, statusCode);
+            RoutingUtil.forwardToPage(ERROR_JSP, req, resp);
         }
     }
 

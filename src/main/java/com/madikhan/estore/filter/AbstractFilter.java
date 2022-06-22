@@ -34,15 +34,11 @@ public abstract class AbstractFilter implements Filter {
             try {
                 doFilter(req, resp, chain);
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.warn(e.getMessage());
             }
         }
     }
 
     public abstract void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException, SQLException;
 
-    @Override
-    public void destroy() {
-
-    }
 }

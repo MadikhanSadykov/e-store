@@ -1,6 +1,8 @@
 package com.madikhan.estore.jdbc;
 
 import com.madikhan.estore.jdbc.util.PropertiesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,9 +12,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import static com.madikhan.estore.constants.DBParameterConstants.*;
+import static com.madikhan.estore.constants.NamesConstants.*;
 
 public class ConnectionPool {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private static volatile ConnectionPool instance;
     private static final Integer DEFAULT_POOL_SIZE = 10;
 
@@ -43,7 +47,8 @@ public class ConnectionPool {
             poolSize = Integer.parseInt(properties.getValue(POOL_SIZE_KEY));
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            poolSize = DEFAULT_POOL_SIZE;  // IMPROVE
+            poolSize = DEFAULT_POOL_SIZE;
+            LOGGER.warn(ERROR_POOL_SIZE_PROPERTIES + e.getMessage());
         }
         poolQueue = new ArrayBlockingQueue<>(poolSize);
     }
@@ -53,7 +58,8 @@ public class ConnectionPool {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            throw new RuntimeException(e); // IMPROVE
+            LOGGER.error(ERROR_FIND_JDBC_DRIVER_CLASS + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,6 +70,7 @@ public class ConnectionPool {
                 poolQueue.put(openConnection());
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                LOGGER.error(ERROR_THREAD_INTERRUPTED_WHILE_INIT_CONNECTION + e.getMessage());
                 throw new RuntimeException(e);
             }
         }
@@ -77,6 +84,7 @@ public class ConnectionPool {
                     password
             );
         } catch (SQLException e) {
+            LOGGER.error(ERROR_CANNOT_OPEN_CONNECTION + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -102,7 +110,7 @@ public class ConnectionPool {
         try {
             return poolQueue.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR_THREAD_INTERRUPTED_WHILE_GET_CONNECTION + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -112,7 +120,7 @@ public class ConnectionPool {
             try {
                 poolQueue.put(connection);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(ERROR_THREAD_INTERRUPTED_WHILE_BRING_BACK_CONNECTION + e.getMessage());
                 throw new RuntimeException(e);
             }
         }

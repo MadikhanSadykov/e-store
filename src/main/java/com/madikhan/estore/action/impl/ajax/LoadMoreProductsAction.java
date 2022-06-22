@@ -1,5 +1,7 @@
 package com.madikhan.estore.action.impl.ajax;
 
+import static com.madikhan.estore.constants.NamesConstants.*;
+
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.model.Product;
 import com.madikhan.estore.service.ProductService;
@@ -18,23 +20,17 @@ import static com.madikhan.estore.constants.NamesConstants.MAX_PRODUCTS_PER_HTML
 
 public class LoadMoreProductsAction implements Action {
 
-    private ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException,
+            SQLException {
 
         HttpSession session = request.getSession(true);
+        Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
+        List<Product> products = productService.listAllProducts(getPage(request), MAX_PRODUCTS_PER_HTML_PAGE, languageID);
+        request.setAttribute(PRODUCTS, products);
+        RoutingUtil.forwardToFragment(PRODUCT_LIST_JSP, request, response);
 
-        Integer languageID = (Integer) session.getAttribute("languageID");
-
-        List<Product> products = null;
-        try {
-            products = productService.listAllProducts(getPage(request), MAX_PRODUCTS_PER_HTML_PAGE, languageID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("products", products);
-        RoutingUtil.forwardToFragment("product-list.jsp", request, response);
     }
-
 }

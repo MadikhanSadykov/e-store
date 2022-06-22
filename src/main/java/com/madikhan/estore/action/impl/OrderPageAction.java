@@ -18,21 +18,24 @@ import java.sql.SQLException;
 
 public class OrderPageAction implements Action {
 
-    private OrderService orderService = OrderServiceImpl.getInstance();
+    private final OrderService orderService = OrderServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        String message = (String) request.getSession().getAttribute("CURRENT_MESSAGE");
-        Integer languageID = (Integer) request.getSession().getAttribute("languageID");
+
+        String message = (String) request.getSession().getAttribute(CURRENT_MESSAGE);
+        Integer languageID = (Integer) request.getSession().getAttribute(LANGUAGE_ID);
         User user = (User) request.getSession().getAttribute(CURRENT_USER);
-        request.getSession().removeAttribute("CURRENT_MESSAGE");
-        request.setAttribute("CURRENT_MESSAGE", message);
-        Long orderID = Long.parseLong(request.getParameter("id"));
+        request.getSession().removeAttribute(CURRENT_MESSAGE);
+        request.setAttribute(CURRENT_MESSAGE, message);
+        Long orderID = Long.parseLong(request.getParameter(ID));
         Order order = orderService.findByID(orderID, languageID);
         if (!order.getIdUser().equals(user.getId())) {
-            throw new AccessDeniedException("Account with id = " + user.getId() + " is not owner for order with id = " + order.getId());
+            throw new AccessDeniedException(
+                    String.format(ACCOUNT_WITH_ID_NOT_OWNER_ORDER, user.getId(), order.getId()));
         }
-        request.setAttribute("order", order);
-        RoutingUtil.forwardToPage("order.jsp", request, response);
+        request.setAttribute(ORDER, order);
+        RoutingUtil.forwardToPage(ORDER_JSP, request, response);
+
     }
 }

@@ -13,6 +13,13 @@ public interface OrderDAO extends DAO<Order> {
 
     Long getCountOrdersByUserID(Long userID);
 
-    public Order getByID(Long orderID, Integer languageID);
+    Order getByID(Long orderID, Integer languageID);
+
+    void updateStatus(Long orderID, Integer statusID);
+
+    List<Order> listAllOrdersWithLimit(Long page, Integer limit, Integer languageID);
+
+    Long countAllOrders();
+
 
 }

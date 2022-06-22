@@ -27,4 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> listAllCategories(Integer languageID) throws SQLException {
         return categoryDAO.getAllByLanguage(languageID);
     }
+
+    @Override
+    public Category getByID(Long categoryID) throws SQLException {
+        return categoryDAO.getByID(categoryID);
+    }
 }

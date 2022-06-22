@@ -15,23 +15,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.madikhan.estore.constants.NamesConstants.MAX_PRODUCTS_PER_HTML_PAGE;
+import static com.madikhan.estore.constants.NamesConstants.*;
 
 public class LoadMoreSearchAction implements Action {
 
-    private ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException,
             ServletException {
-        SearchForm searchForm = createSearchForm(request);
 
+        SearchForm searchForm = createSearchForm(request);
         HttpSession session = request.getSession(true);
-        Integer languageID = (Integer) session.getAttribute("languageID");
+        Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
         List<Product> products = productService.listProductsBySearchForm(searchForm, getPage(request),
                 MAX_PRODUCTS_PER_HTML_PAGE, languageID);
-        request.setAttribute("products", products);
 
-        RoutingUtil.forwardToFragment("product-list.jsp", request, response);
+        request.setAttribute(PRODUCTS, products);
+        RoutingUtil.forwardToFragment(PRODUCT_LIST_JSP, request, response);
     }
 }

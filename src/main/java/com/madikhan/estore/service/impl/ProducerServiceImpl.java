@@ -27,4 +27,9 @@ public class ProducerServiceImpl implements ProducerService {
     public List<Producer> listAllProducers() throws SQLException {
         return producerDAO. getAll();
     }
+
+    @Override
+    public Producer getByID(Long producerID) throws SQLException {
+        return producerDAO.getByID(producerID);
+    }
 }

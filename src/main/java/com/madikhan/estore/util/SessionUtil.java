@@ -56,7 +56,6 @@ public class SessionUtil {
 
     public static void clearCurrentUser(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().removeAttribute(CURRENT_USER);
-//        WebUtil.setCookie(SHOPPING_CART.getName(), null, 0, resp);
     }
 
     private SessionUtil() {

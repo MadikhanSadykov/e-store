@@ -6,6 +6,7 @@ import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
@@ -45,5 +46,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getPasswordByUserID(Long id) throws SQLException {
         return userDAO.getPasswordByUserID(id);
+    }
+
+    @Override
+    public List<User> listAll() throws SQLException {
+        return userDAO.getAll();
+    }
+
+    @Override
+    public void updateUserAdmin(Boolean isAdmin, Long userID) {
+        userDAO.updateUserAdmin(isAdmin, userID);
+    }
+
+    @Override
+    public void delete(Long userID) throws SQLException {
+        userDAO.delete(userID);
+    }
+
+    @Override
+    public Long countAllUsers() {
+        return userDAO.getCountUsers();
+    }
+
+    @Override
+    public List<User> listAllUsersWithLimit(Long page, Integer limit) {
+        return userDAO.listAllUsersWithLimit(page, limit);
     }
 }

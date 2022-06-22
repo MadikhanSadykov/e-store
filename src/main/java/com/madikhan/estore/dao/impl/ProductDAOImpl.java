@@ -38,6 +38,9 @@ public class ProductDAOImpl implements ProductDAO {
             "WHERE c.id = p.id_category AND c.url = ? AND c.id_language = ?";
     private static final String SELECT_COUNT_ALL_PRODUCTS_BY_SEARCH_FORM = "SELECT count(*) " +
             "FROM product p WHERE (p.name ilike ? or p.description ilike ?)";
+    private static final String DELETE_PRODUCT_BY_ID = "DELETE FROM product WHERE id = ?";
+    private static final String UPDATE_PRODUCT_BY_ID = "UPDATE product SET name = ?, description = ?, image_link = ?, " +
+            "price = ?, id_category = ?, id_producer = ? WHERE id = ?";
 
 
     private ConnectionPool connectionPool;
@@ -108,8 +111,8 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setString(2, product.getDescription());
             preparedStatement.setString(3, product.getImageLink());
             preparedStatement.setBigDecimal(4, product.getPrice());
-            preparedStatement.setString(5, product.getCategory());
-            preparedStatement.setString(6, product.getProducer());
+            preparedStatement.setLong(5, product.getCategoryID());
+            preparedStatement.setLong(6, product.getProducerID());
             preparedStatement.executeUpdate();
         } finally {
             connectionPool.bringBackConnection(connection);
@@ -282,17 +285,42 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
+    public void update(Long productID, Product product) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT_BY_ID)){
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getDescription());
+            preparedStatement.setString(3, product.getImageLink());
+            preparedStatement.setBigDecimal(4, product.getPrice());
+            preparedStatement.setLong(5, product.getCategoryID());
+            preparedStatement.setLong(6, product.getProducerID());
+            preparedStatement.setLong(7, productID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+    }
+
+    @Override
+    public void delete(Long productID) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PRODUCT_BY_ID)){
+            preparedStatement.setLong(1, productID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+    }
+
+    @Override
     public List<Product> getAll() {
         return null;
     }
 
-    @Override
-    public void update(Long id, Product object) {
-
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
 }

@@ -1,5 +1,7 @@
 package com.madikhan.estore.action.impl;
 
+import static com.madikhan.estore.constants.NamesConstants.REGISTRATION_JSP;
+
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.util.RoutingUtil;
 
@@ -11,7 +13,10 @@ import java.sql.SQLException;
 
 public class RegistrationPageAction implements Action {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        RoutingUtil.forwardToPage("registration.jsp", request, response);
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
+        RoutingUtil.forwardToPage(REGISTRATION_JSP, request, response);
+
     }
 }

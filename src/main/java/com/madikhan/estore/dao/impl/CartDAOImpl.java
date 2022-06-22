@@ -1,7 +1,6 @@
 package com.madikhan.estore.dao.impl;
 
 import com.madikhan.estore.dao.CartDAO;
-import com.madikhan.estore.dao.ProductDAO;
 import com.madikhan.estore.exception.InternalServerErrorException;
 import com.madikhan.estore.jdbc.ConnectionPool;
 import com.madikhan.estore.model.Cart;
@@ -10,7 +9,6 @@ import com.madikhan.estore.model.Product;
 import com.madikhan.estore.model.form.ProductForm;
 import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
-import org.checkerframework.checker.units.qual.A;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,7 +26,7 @@ public class CartDAOImpl implements CartDAO {
             "WHERE id_user = ? AND id_product = ?";
     private static final String SELECT_ALL_BY_USER_ID = "SELECT * FROM cart WHERE id_user = ?";
 
-    private ProductService productService = ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
     private ConnectionPool connectionPool;
     private Connection connection;
     private static CartDAO instance;

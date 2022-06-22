@@ -92,6 +92,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void save(Product product) throws SQLException {
+        productDAO.create(product);
+    }
+
+    @Override
+    public void delete(Long productID) throws SQLException {
+        productDAO.delete(productID);
+    }
+
+    @Override
+    public void update(Long productID, Product product) throws SQLException {
+        productDAO.update(productID, product);
+    }
+
+    @Override
     public Cart deserializeCart(String string, int languageID) throws SQLException {
         Cart cart = new Cart();
         String[] items = string.split("\\|");

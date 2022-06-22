@@ -3,6 +3,7 @@ package com.madikhan.estore.dao;
 import com.madikhan.estore.model.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface UserDAO extends DAO<User> {
 
@@ -15,5 +16,11 @@ public interface UserDAO extends DAO<User> {
     boolean isEmailExist(String email) throws SQLException;
 
     String getPasswordByUserID(Long id) throws SQLException;
+
+    void updateUserAdmin(Boolean isAdmin, Long userID);
+
+    Long getCountUsers();
+
+    List<User> listAllUsersWithLimit(Long page, Integer limit);
 
 }

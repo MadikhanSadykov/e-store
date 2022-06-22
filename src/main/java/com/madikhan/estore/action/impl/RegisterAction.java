@@ -19,10 +19,11 @@ import java.sql.SQLException;
 
 public class RegisterAction implements Action {
 
-    private UserService userService = UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
 
         HttpSession session = request.getSession(true);
         RequestDispatcher dispatcher;
@@ -32,17 +33,17 @@ public class RegisterAction implements Action {
             if (userService.isEmailExists(request.getParameter(EMAIL))) {
                 request.setAttribute(EMAIL_IS_WRONG, EMAIL_EXISTS_MESSAGE);
                 request.setAttribute(EMAIL, request.getParameter(EMAIL));
-                dispatcher = request.getRequestDispatcher("/registrationPage");
+                dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE_PATH);
                 dispatcher.forward(request, response);
             } else if (!AuthenticationValidator.isEmailValid(request.getParameter(EMAIL))) {
                 request.setAttribute(EMAIL_IS_WRONG, EMAIL_WRONG_FORMAT_MESSAGE);
                 request.setAttribute(EMAIL, request.getParameter(EMAIL));
-                dispatcher = request.getRequestDispatcher("/registrationPage");
+                dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE_PATH);
                 dispatcher.forward(request, response);
             } else if (!AuthenticationValidator.isPasswordValid(request.getParameter(PASSWORD))) {
                 request.setAttribute(PASSWORD_IS_WRONG, PASSWORD_IS_WRONG_MESSAGE);
                 request.setAttribute(EMAIL, request.getParameter(EMAIL));
-                dispatcher = request.getRequestDispatcher("/registrationPage");
+                dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE_PATH);
                 dispatcher.forward(request, response);
             } else {
                 User user = fillUser(request);
@@ -58,15 +59,13 @@ public class RegisterAction implements Action {
         } else {
             request.setAttribute(PASSWORD_IS_WRONG, PASSWORD_DOES_NOT_MATCH_MESSAGE);
             request.setAttribute(EMAIL, request.getParameter(EMAIL));
-            dispatcher = request.getRequestDispatcher("/registrationPage");
+            dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE_PATH);
             dispatcher.forward(request, response);
         }
-
     }
 
     private User fillUser(HttpServletRequest request) {
         User user = new User();
-
         user.setName(request.getParameter(NAME));
         user.setEmail(request.getParameter(EMAIL));
         String password = request.getParameter(PASSWORD);

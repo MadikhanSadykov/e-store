@@ -1,18 +1,20 @@
 <%@ tag pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ attribute name="items" required="true" type="java.util.Collection"%>
 <%@ attribute name="totalCost" required="true" type="java.lang.Number"%>
 <%@ attribute name="showActionColumn" required="true" type="java.lang.Boolean"%>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="language" />
 
 <table class="table table-bordered">
     <thead>
     <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Count</th>
+        <th><fmt:message key="product" /></th>
+        <th><fmt:message key="price"/></th>
+        <th><fmt:message key="count"/></th>
         <c:if test="${showActionColumn }">
-            <th class="hidden-print">Action</th>
+            <th class="hidden-print"><fmt:message key="action"/></th>
         </c:if>
     </tr>
     </thead>
@@ -26,11 +28,13 @@
                 <td class="hidden-print">
                     <c:choose>
                         <c:when test="${item.productCount > 1 }">
-                            <a class="btn btn-danger remove-product" data-id-product="${item.product.id }" data-count="1">Remove one</a><br><br>
-                            <a class="btn btn-danger remove-product remove-all" data-id-product="${item.product.id }" data-count="${item.productCount }">Remove all</a>
+                            <a class="btn btn-danger remove-product" data-id-product="${item.product.id }" data-count="1"><fmt:message key="remove.one"/> </a><br><br>
+                            <a class="btn btn-danger remove-product remove-all" data-id-product="${item.product.id }" data-count="${item.productCount }">
+                                <fmt:message key="remove.all"/>
+                            </a>
                         </c:when>
                         <c:otherwise>
-                            <a class="btn btn-danger remove-product" data-id-product="${item.product.id }" data-count="1">Remove one</a>
+                            <a class="btn btn-danger remove-product" data-id-product="${item.product.id }" data-count="1"><fmt:message key="remove.one"/></a>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -38,7 +42,7 @@
         </tr>
     </c:forEach>
     <tr>
-        <td colspan="2" class="text-right"><strong>Total:</strong></td>
+        <td colspan="2" class="text-right"><strong><fmt:message key="total"/>:</strong></td>
         <td colspan="${showActionColumn ? 2 : 1}" class="total">$ ${totalCost}</td>
     </tr>
     </tbody>

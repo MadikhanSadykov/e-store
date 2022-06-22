@@ -2,7 +2,6 @@ package com.madikhan.estore.dao.impl;
 
 import static com.madikhan.estore.constants.NamesConstants.*;
 
-import com.madikhan.estore.dao.DAO;
 import com.madikhan.estore.dao.UserDAO;
 import com.madikhan.estore.exception.InternalServerErrorException;
 import com.madikhan.estore.jdbc.ConnectionPool;
@@ -13,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
@@ -23,9 +23,14 @@ public class UserDAOImpl implements UserDAO {
     private static final String SELECT_USER_BY_PHONE_NUMBER_AND_PASSWORD = "SELECT * FROM \"user\" WHERE phone_number = ? AND password = ?";
     private static final String SELECT_EMAIL_EXISTS = "SELECT EXISTS(SELECT 1 FROM \"user\" WHERE email = ? )";
     private static final String UPDATE_USER_BY_ID = "UPDATE \"user\" SET name = ?, surname = ?, email = ?, phone_number = ?, " +
-            " address = ?, password = ? WHERE id = ?";
+            " address = ?, password = ?, is_admin = ? WHERE id = ?";
     private static final String SELECT_EMAIL_BY_ID = "SELECT email FROM \"user\" WHERE id = ?";
     private static final String SELECT_PASSWORD_BY_ID = "SELECT password FROM \"user\" WHERE id = ?";
+    private static final String SELECT_ALL_USERS = "SELECT * FROM \"user\" ";
+    private static final String SELECT_ALL_USERS_WITH_LIMIT = "SELECT * FROM \"user\" LIMIT ? OFFSET ?";
+    private static final String UPDATE_USER_AS_ADMIN = "UPDATE \"user\" SET is_admin = ? WHERE id = ?";
+    private static final String DELETE_BY_USER_ID = "DELETE FROM \"user\" WHERE id = ?";
+    private static final String SELECT_COUNT_ALL_USERS = "SELECT count(*) as count FROM \"user\"";
 
     private ConnectionPool connectionPool;
     private Connection connection;
@@ -81,7 +86,8 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(4, user.getPhoneNumber());
             statement.setString(5, user.getAddress());
             statement.setString(6, user.getPassword());
-            statement.setLong(7, id);
+            statement.setBoolean(7, user.getIsAdmin());
+            statement.setLong(8, id);
             statement.executeUpdate();
         } catch (SQLException sqlException) {
             throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
@@ -92,18 +98,37 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getByID(Long id) {
-        return null;
-    }
-
-    @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                setResultSetToUser(user, resultSet);
+                users.add(user);
+            }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return users;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void delete(Long userID) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_USER_ID)){
+            preparedStatement.setLong(1, userID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
     }
 
     @Override
@@ -150,17 +175,6 @@ public class UserDAOImpl implements UserDAO {
         return password;
     }
 
-
-    @Override
-    public void updateUserPassword(Long userId, String newPassword) {
-
-    }
-
-    @Override
-    public void updateUserRole(Long userId, Boolean isAdmin) {
-
-    }
-
     @Override
     public boolean isEmailExist(String email) {
         connectionPool = ConnectionPool.getInstance();
@@ -180,4 +194,74 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
+    @Override
+    public void updateUserAdmin(Boolean isAdmin, Long userID) {
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_AS_ADMIN)){
+            preparedStatement.setBoolean(1, isAdmin);
+            preparedStatement.setLong(2, userID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+    }
+
+    @Override
+    public Long getCountUsers() {
+        Long count = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COUNT_ALL_USERS)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getLong("count");
+            }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return count;
+    }
+
+    @Override
+    public List<User> listAllUsersWithLimit(Long page, Integer limit) {
+        List<User> users = new ArrayList<>();
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        Long offset = (page - 1) * limit;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_WITH_LIMIT)) {
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setLong(2, offset);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                setResultSetToUser(user, resultSet);
+                users.add(user);
+            }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return users;
+    }
+
+    @Override
+    public void updateUserPassword(Long userId, String newPassword) {
+
+    }
+
+    @Override
+    public void updateUserRole(Long userId, Boolean isAdmin) {
+
+    }
+
+    @Override
+    public User getByID(Long id) {
+        return null;
+    }
 }

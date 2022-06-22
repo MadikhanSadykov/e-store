@@ -4,7 +4,6 @@ import com.madikhan.estore.dao.CategoryDAO;
 import com.madikhan.estore.exception.InternalServerErrorException;
 import com.madikhan.estore.jdbc.ConnectionPool;
 import com.madikhan.estore.model.Category;
-import com.madikhan.estore.model.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,6 +19,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     private static CategoryDAO instance;
 
     private static final String SELECT_ALL_CATEGORIES = "SELECT * FROM category WHERE id_language = ? ORDER BY name";
+    private static final String SELECT_BY_ID = "SELECT * FROM category WHERE id = ? AND id_language = 1";
 
     private CategoryDAOImpl() {
         super();
@@ -30,7 +30,7 @@ public class CategoryDAOImpl implements CategoryDAO {
         category.setName(resultSet.getString("name"));
         category.setUrl(resultSet.getString("url"));
         category.setProductCount(resultSet.getInt("product_count"));
-        category.setIdLanguage(1);
+        category.setIdLanguage(resultSet.getInt("id_language"));
     }
 
     public static CategoryDAO getInstance() {
@@ -40,13 +40,23 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public void create(Category object) throws SQLException {
-
-    }
-
-    @Override
-    public Category getByID(Long id) throws SQLException {
-        return null;
+    public Category getByID(Long categoryID) throws SQLException {
+        Category category = null;
+        connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID)){
+            preparedStatement.setLong(1, categoryID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                category = new Category();
+                setResultSetToCategory(category, resultSet);
+            }
+        } catch (SQLException sqlException) {
+            throw new InternalServerErrorException("Cannot execute SQL query: " + sqlException.getMessage(), sqlException);
+        } finally {
+            connectionPool.bringBackConnection(connection);
+        }
+        return category;
     }
 
     @Override
@@ -82,6 +92,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public void delete(Long id) throws SQLException {
+
+    }
+
+    @Override
+    public void create(Category object) throws SQLException {
 
     }
 }

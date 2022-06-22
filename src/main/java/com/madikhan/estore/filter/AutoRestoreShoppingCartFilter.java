@@ -1,5 +1,7 @@
 package com.madikhan.estore.filter;
 
+import static com.madikhan.estore.constants.NamesConstants.LANGUAGE_ID;
+
 import com.madikhan.estore.model.Cart;
 import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
@@ -27,9 +29,11 @@ public class AutoRestoreShoppingCartFilter extends AbstractFilter {
     }
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException, SQLException {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException, SQLException {
+
         HttpSession session = request.getSession(true);
-        Integer languageID = (Integer) session.getAttribute("languageID");
+        Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
 
         if(request.getSession().getAttribute(SHOPPING_CARD_DESERIALIZATION_DONE) == null){
             if(!SessionUtil.isCurrentShoppingCartCreated(request)) {

@@ -31,7 +31,9 @@ public class CategoryProducerFilter extends AbstractFilter{
     }
 
     @Override
-    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException, SQLException {
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException, SQLException {
+
         HttpSession session = request.getSession(true);
         Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
 

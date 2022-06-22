@@ -31,21 +31,6 @@ public class LanguageDAOImpl implements LanguageDAO {
     }
 
     @Override
-    public void create(Language object) throws SQLException {
-
-    }
-
-    @Override
-    public void update(Long id, Language object) {
-
-    }
-
-    @Override
-    public Language getByID(Long id) {
-        return null;
-    }
-
-    @Override
     public Integer getLanguageID(String language) throws SQLException {
         Integer languageID = null;
         connectionPool = ConnectionPool.getInstance();
@@ -87,7 +72,23 @@ public class LanguageDAOImpl implements LanguageDAO {
     }
 
     @Override
+    public void create(Language object) throws SQLException {
+
+    }
+
+    @Override
+    public void update(Long id, Language object) {
+
+    }
+
+    @Override
+    public Language getByID(Long id) {
+        return null;
+    }
+
+    @Override
     public void delete(Long id) {
 
     }
+
 }

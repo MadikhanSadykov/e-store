@@ -19,21 +19,24 @@ import java.util.List;
 
 public class ProductsByCategoryAction implements Action {
 
-    private ProductService productService = ProductServiceImpl.getInstance();
-    private static final int SUBSTRING_INDEX = "/productsByCategory".length();
+    private final ProductService productService = ProductServiceImpl.getInstance();
+    private static final int SUBSTRING_INDEX = PRODUCTS_BY_CATEGORY_PATH.length();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        HttpSession session = request.getSession();
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
 
-        Integer languageID = (Integer) session.getAttribute("languageID");
+        HttpSession session = request.getSession();
+        Integer languageID = (Integer) session.getAttribute(LANGUAGE_ID);
 
         String categoryUrl = request.getRequestURI().substring(SUBSTRING_INDEX);
-        List<Product> products = productService.listProductsByCategory(categoryUrl, (long) 1, MAX_PRODUCTS_PER_HTML_PAGE, languageID);
+        List<Product> products = productService
+                .listProductsByCategory(categoryUrl, NUMBER_OF_FIRST_PAGE, MAX_PRODUCTS_PER_HTML_PAGE, languageID);
         Long totalCount = productService.countAllProductsByCategory(categoryUrl, languageID);
-        request.setAttribute("pageCount", getPageCount(totalCount, MAX_PRODUCTS_PER_HTML_PAGE ));
-        request.setAttribute("products", products);
-        request.setAttribute("selectedCategoryUrl", categoryUrl);
-        RoutingUtil.forwardToPage("products.jsp", request, response);
+        request.setAttribute(PAGE_COUNT, getPageCount(totalCount, MAX_PRODUCTS_PER_HTML_PAGE ));
+        request.setAttribute(PRODUCTS, products);
+        request.setAttribute(SELECTED_CATEGORY_URL, categoryUrl);
+        RoutingUtil.forwardToPage(PRODUCTS_JSP, request, response);
+
     }
 }

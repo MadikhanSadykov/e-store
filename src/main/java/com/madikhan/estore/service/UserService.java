@@ -3,6 +3,7 @@ package com.madikhan.estore.service;
 import com.madikhan.estore.model.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface UserService {
 
@@ -17,5 +18,14 @@ public interface UserService {
 
     String getPasswordByUserID(Long id) throws SQLException;
 
+    List<User> listAll() throws SQLException;
+
+    void updateUserAdmin(Boolean isAdmin, Long userID);
+
+    void delete(Long userID) throws SQLException;
+
+    Long countAllUsers();
+
+    List<User> listAllUsersWithLimit(Long page, Integer limit);
 
 }

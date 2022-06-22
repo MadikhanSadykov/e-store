@@ -20,20 +20,24 @@ import java.util.List;
 
 public class MyOrdersPageAction implements Action {
 
-    private OrderService orderService = OrderServiceImpl.getInstance();
+    private final OrderService orderService = OrderServiceImpl.getInstance();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
         if (SessionUtil.isCurrentUserCreated(request)) {
             User user = SessionUtil.getCurrentUser(request);
-            Integer languageID = (Integer) request.getSession().getAttribute("languageID");
-            List<Order> orders = orderService.listAllOrdersByUserID(user.getId(), (long )1, MAX_ORDERS_PER_HTML_PAGE, languageID);
-            request.setAttribute("orders", orders);
-            Long orderCount = orderService.countMyOrders(user.getId());
-            request.setAttribute("pageCount", getPageCount(orderCount, MAX_ORDERS_PER_HTML_PAGE));
-            RoutingUtil.forwardToPage("my-orders.jsp", request, response);
+            Integer languageID = (Integer) request.getSession().getAttribute(LANGUAGE_ID);
+            List<Order> orders = orderService
+                    .listAllOrdersByUserID(user.getId(), NUMBER_OF_FIRST_PAGE, MAX_ORDERS_PER_HTML_PAGE, languageID);
+            request.setAttribute(ORDERS, orders);
+            Long orderCount = orderService.countUserOrders(user.getId());
+            request.setAttribute(PAGE_COUNT, getPageCount(orderCount, MAX_ORDERS_PER_HTML_PAGE));
+            RoutingUtil.forwardToPage(MY_ORDERS_LOGIN_JSP, request, response);
         } else {
-            throw new AccessDeniedException("You are not signed in!");
+            throw new AccessDeniedException(YOU_ARE_NOT_ADMIN_MESSAGE);
         }
+
     }
 }

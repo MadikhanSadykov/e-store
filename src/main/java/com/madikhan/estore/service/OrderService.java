@@ -15,5 +15,11 @@ public interface OrderService {
 
     List<Order> listAllOrdersByUserID(Long userID, Long page, Integer limit, Integer languageID);
 
-    Long countMyOrders(Long userID);
+    Long countUserOrders(Long userID);
+
+    void updateStatus(Long orderID, Integer statusID);
+
+    List<Order> listAllOrdersWithLimit(Long page, Integer limit, Integer languageID);
+
+    Long countAllOrders();
 }
