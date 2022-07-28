@@ -208,26 +208,16 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<Order> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(Long id, Order object) throws SQLException {
-
-    }
-
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
-
-    @Override
-    public void create(Order object) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Order getByID(Long orderID) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

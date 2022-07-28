@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CartDAO extends DAO<Cart> {
 
+    void create(Cart cart) throws SQLException;
+
     void create(Long userID, ProductForm productForm);
 
     CartItem getByUserIDAndProductID(Long userID, Long productID);

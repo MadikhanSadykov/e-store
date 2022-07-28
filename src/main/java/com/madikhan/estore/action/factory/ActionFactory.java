@@ -1,14 +1,50 @@
 package com.madikhan.estore.action.factory;
 
 import com.madikhan.estore.action.Action;
+import com.madikhan.estore.action.impl.AdminOrdersPage;
+import com.madikhan.estore.action.impl.AdminPageAction;
+import com.madikhan.estore.action.impl.AdminProductsPageAction;
+import com.madikhan.estore.action.impl.AdminUsersPageAction;
+import com.madikhan.estore.action.impl.ChangeLanguageAction;
+import com.madikhan.estore.action.impl.ChangeProfilePageAction;
+import com.madikhan.estore.action.impl.CreateOrderAction;
+import com.madikhan.estore.action.impl.CreateProductAction;
+import com.madikhan.estore.action.impl.CreateProductPageAction;
+import com.madikhan.estore.action.impl.ErrorAction;
+import com.madikhan.estore.action.impl.LogOutAction;
+import com.madikhan.estore.action.impl.LoginAction;
+import com.madikhan.estore.action.impl.LoginPageAction;
+import com.madikhan.estore.action.impl.MyOrdersPageAction;
+import com.madikhan.estore.action.impl.OrderPageAction;
+import com.madikhan.estore.action.impl.ProductsAction;
+import com.madikhan.estore.action.impl.ProductsByCategoryAction;
+import com.madikhan.estore.action.impl.ProfilePageAction;
+import com.madikhan.estore.action.impl.RegisterAction;
 import com.madikhan.estore.action.impl.RegistrationPageAction;
-import com.madikhan.estore.action.impl.*;
-import com.madikhan.estore.action.impl.ajax.*;
+import com.madikhan.estore.action.impl.SearchAction;
+import com.madikhan.estore.action.impl.ShoppingCartAction;
+import com.madikhan.estore.action.impl.UpdateProductAction;
+import com.madikhan.estore.action.impl.UpdateProductPageAction;
+import com.madikhan.estore.action.impl.UpdateUserAction;
+import com.madikhan.estore.action.impl.ajax.AddProductToCartAction;
+import com.madikhan.estore.action.impl.ajax.CancelOrderAction;
+import com.madikhan.estore.action.impl.ajax.CompleteOrderAction;
+import com.madikhan.estore.action.impl.ajax.DeleteProductAction;
+import com.madikhan.estore.action.impl.ajax.DeleteUserAction;
+import com.madikhan.estore.action.impl.ajax.LoadMoreMyOrdersAction;
+import com.madikhan.estore.action.impl.ajax.LoadMoreOrdersForAdmin;
+import com.madikhan.estore.action.impl.ajax.LoadMoreProductsAction;
+import com.madikhan.estore.action.impl.ajax.LoadMoreProductsByCategoryAction;
+import com.madikhan.estore.action.impl.ajax.LoadMoreProductsForAdmin;
+import com.madikhan.estore.action.impl.ajax.LoadMoreSearchAction;
+import com.madikhan.estore.action.impl.ajax.LoadMoreUsersForAdmin;
+import com.madikhan.estore.action.impl.ajax.MarkUserAsAdmin;
+import com.madikhan.estore.action.impl.ajax.MarkUserNotAdmin;
+import com.madikhan.estore.action.impl.ajax.RemoveProductFromCartAction;
+
 
 import java.util.HashMap;
 import java.util.Map;
-
-
 
 public class ActionFactory {
 
@@ -21,7 +57,7 @@ public class ActionFactory {
         URL_PATH_ACTION_MAP.put("/login", new LoginAction());
         URL_PATH_ACTION_MAP.put("/loginPage", new LoginPageAction());
         URL_PATH_ACTION_MAP.put("/logOut", new LogOutAction());
-        URL_PATH_ACTION_MAP.put("/products", new ProductsAction());
+        Action put = URL_PATH_ACTION_MAP.put("/products", new ProductsAction());
         URL_PATH_ACTION_MAP.put("/profile", new ProfilePageAction());
         URL_PATH_ACTION_MAP.put("/profileUpdate", new UpdateUserAction());
         URL_PATH_ACTION_MAP.put("/changeProfile", new ChangeProfilePageAction());
@@ -59,13 +95,16 @@ public class ActionFactory {
     }
 
     public Action getAction(String requestURI) {
-        Action action = URL_PATH_ACTION_MAP.get("/error");
+        Action action = null;
 
         for (Map.Entry<String, Action> pair : URL_PATH_ACTION_MAP.entrySet()) {
             if (requestURI.equalsIgnoreCase(pair.getKey()) || (pair.getKey().contains("/*")
-                    && isRequestURIContains(requestURI, trimString(pair.getKey())) )) {
+                    && isRequestURIContains(requestURI, trimLastTwoCharsStringURI(pair.getKey())) )) {
                 action = pair.getValue();
             }
+        }
+        if (action == null) {
+            action = URL_PATH_ACTION_MAP.get("/error");
         }
         return action;
     }
@@ -77,31 +116,35 @@ public class ActionFactory {
         return ACTION_FACTORY;
     }
 
-    private String trimString(String string) {
-        return string.substring(0, string.length() - 2);
+    private String trimLastTwoCharsStringURI(String string) {
+        int INDEX_OF_FIRST_CHAR = 0;
+        int TWO_LAST_CHARS = 2;
+        // subtraction of 2 in order to delete extra chars in the end (like "/*")
+        return string.substring(INDEX_OF_FIRST_CHAR, string.length() - TWO_LAST_CHARS);
     }
 
     private boolean isRequestURIContains(String requestURI, String URI) {
 
+        int NEGATIVE_SIGN = -1;
         int URILength = URI.length();
         int requestURILength = requestURI.length();
-
         int differenceLength = requestURILength - URILength;
 
-        if (differenceLength < 0)
-            differenceLength *= -1;
+        if (differenceLength < 0) {
+            // change sign if it is negative
+            differenceLength = differenceLength * (NEGATIVE_SIGN);
+        }
 
         int trimRequestURILength = requestURILength - differenceLength;
 
-        if (trimRequestURILength < 0)
-            trimRequestURILength *= -1;
+        if (trimRequestURILength < 0) {
+            // change sign if it is negative
+            trimRequestURILength = trimRequestURILength * (NEGATIVE_SIGN);
+        }
 
-        try {
+        if (requestURI.length() >= trimRequestURILength) {
             String compareURI = requestURI.substring(0, trimRequestURILength);
-            if (URI.equals(compareURI))
-                return true;
-        } catch (StringIndexOutOfBoundsException e) {
-            return false;
+            return URI.equals(compareURI);
         }
 
         return false;

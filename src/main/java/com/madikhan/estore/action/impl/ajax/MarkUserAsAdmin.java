@@ -4,10 +4,9 @@ import static com.madikhan.estore.constants.NamesConstants.*;
 
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
-import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +22,7 @@ public class MarkUserAsAdmin implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             Long userID = Long.valueOf(request.getParameter(USER_ID_ATTRIBUTE));
             userService.updateUserAdmin(ADMIN_ROLE, userID);
         } else {

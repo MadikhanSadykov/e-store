@@ -183,21 +183,17 @@ public class CartDAOImpl implements CartDAO {
 
     @Override
     public Cart getByID(Long id) throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Cart> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(Long id, Cart object) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
 }

@@ -4,9 +4,8 @@ import static com.madikhan.estore.constants.NamesConstants.*;
 
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
-import com.madikhan.estore.model.User;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +18,7 @@ public class AdminPageAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             RoutingUtil.forwardToPage(ADMIN_JSP, request, response);
         } else {
             throw new AccessDeniedException(YOU_ARE_NOT_ADMIN_MESSAGE);

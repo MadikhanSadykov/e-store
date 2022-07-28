@@ -14,10 +14,6 @@ public class EStoreController extends HttpServlet {
 
     private static final long serialVersionUID = -3530914552001424135L;
 
-    public EStoreController() {
-
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 

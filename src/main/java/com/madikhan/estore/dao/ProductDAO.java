@@ -3,7 +3,6 @@ package com.madikhan.estore.dao;
 
 
 import com.madikhan.estore.model.Cart;
-import com.madikhan.estore.model.CartItem;
 import com.madikhan.estore.model.Product;
 import com.madikhan.estore.model.form.ProductForm;
 import com.madikhan.estore.model.form.SearchForm;
@@ -12,6 +11,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ProductDAO extends DAO<Product> {
+
+    void create(Product product) throws SQLException;
+
+    void delete(Long productID) throws SQLException;
 
     Product getByID(Long id, int languageID) throws SQLException;
 

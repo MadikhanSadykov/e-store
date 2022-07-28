@@ -5,11 +5,10 @@ import static com.madikhan.estore.constants.NamesConstants.*;
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
 import com.madikhan.estore.model.Product;
-import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +25,8 @@ public class AdminProductsPageAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
         Integer languageID = (Integer) request.getSession().getAttribute(LANGUAGE_ID);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             List<Product> products = productService
                     .listAllProducts(NUMBER_OF_FIRST_PAGE, MAX_PRODUCTS_PER_ADMIN_PAGE, languageID);
 

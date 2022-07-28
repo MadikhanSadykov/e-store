@@ -21,7 +21,7 @@ public interface Action {
         try {
             return Long.parseLong(request.getParameter(PAGE));
         } catch (NumberFormatException exception) {
-            return (long) 1;
+            return 1L;
         }
     }
 

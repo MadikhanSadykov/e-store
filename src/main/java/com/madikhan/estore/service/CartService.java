@@ -6,6 +6,7 @@ import com.madikhan.estore.model.form.ProductForm;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface CartService {
 
@@ -16,5 +17,9 @@ public interface CartService {
     List<CartItem> listAllCartItemsByUserID(Long userID);
 
     void addProductToCartFromDB(Long userID, Cart cart, Integer languageID) throws SQLException;
+
+    void validateShoppingCartSize(Long idProduct, Map<Long, CartItem> products);
+
+    void validateProductCount(int productCount);
 
 }

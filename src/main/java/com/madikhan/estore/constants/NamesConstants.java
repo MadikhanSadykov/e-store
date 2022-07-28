@@ -126,6 +126,7 @@ public class NamesConstants {
     public static final String ERROR_THREAD_INTERRUPTED_WHILE_BRING_BACK_CONNECTION = "Thread interrupted while bring back connection";
     public static final String ERROR_CANNOT_OPEN_CONNECTION = "Cannot open connection (url, username, password is not correct)";
     public static final String PHONE_NUMBER_WRONG_FORMAT_MESSAGE = "Phone number format wrong: 8-(xxx)-xxx-xx-xx";
+    public static final String USER_HAS_ORDERS_MESSAGE = "User has one or more orders!";
 
     public static final String LOGIN = "login";
     public static final String HOME_PAGE_PATH = "/";
@@ -143,24 +144,4 @@ public class NamesConstants {
     public static final String CHANGE_PROFILE_PAGE = "/changeProfile";
     public static final String LOAD_MORE_PRODUCTS_BY_CATEGORY_PATH = "/more/productsByCategory";
 
-    public enum Cookie {
-        //1 year ttl
-        SHOPPING_CART("iSCC", 60 * 60 * 24 * 30);
-
-        private final String name;
-        private final int ttl;
-
-        private Cookie(String name, int ttl) {
-            this.name = name;
-            this.ttl = ttl;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getTtl() {
-            return ttl;
-        }
-    }
 }

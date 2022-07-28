@@ -53,7 +53,7 @@
 
 
         <div class="col-sm-offset-4 col-sm-3">
-            <span>Don't have account? </span> <a href="/registrationPage"><fmt:message key="create.account"/></a>
+            <span><fmt:message key="do.not.have.account" /> </span> <a href="/registrationPage"><fmt:message key="create.account"/></a>
         </div>
 
         <div class="form-group">

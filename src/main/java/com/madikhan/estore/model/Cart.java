@@ -1,7 +1,7 @@
 package com.madikhan.estore.model;
 
-import com.madikhan.estore.constants.NamesConstants;
-import com.madikhan.estore.exception.ValidationException;
+import com.madikhan.estore.service.CartService;
+import com.madikhan.estore.service.impl.CartServiceImpl;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,6 +12,7 @@ import java.util.Map;
 public class Cart extends AbstractModel<Long> implements Serializable {
 
     private static final long serialVersionUID = -9106742499007343174L;
+    private final CartService cartService = CartServiceImpl.getInstance();
 
     private Long totalCount = (long) 0;
     private BigDecimal totalCost = BigDecimal.ZERO;
@@ -30,19 +31,6 @@ public class Cart extends AbstractModel<Long> implements Serializable {
         this.idCartItem = idCartItem;
     }
 
-    private void validateShoppingCartSize(Long idProduct){
-        if(getProducts().size() > NamesConstants.MAX_PRODUCTS_PER_SHOPPING_CART ||
-                (getProducts().size() == NamesConstants.MAX_PRODUCTS_PER_SHOPPING_CART && !getProducts().containsKey(idProduct))) {
-            throw new ValidationException("Limit for ShoppingCart size reached: size="+getProducts().size());
-        }
-    }
-
-    private void validateProductCount(int productCount) {
-        if(productCount > NamesConstants.MAX_PRODUCT_COUNT_PER_SHOPPING_CART){
-            throw new ValidationException("Limit for product count reached: count="+productCount);
-        }
-    }
-
     private void refreshTotalCountAndTotalCost() {
         setTotalCount( (long) 0 );
         setTotalCost(BigDecimal.ZERO);
@@ -54,16 +42,16 @@ public class Cart extends AbstractModel<Long> implements Serializable {
     }
 
     public void addProduct(Product product, int productCount, Boolean isPersisted) {
-        validateShoppingCartSize(product.getId());
+        cartService.validateShoppingCartSize(product.getId(), getProducts());
         CartItem cartItem = getProducts().get(product.getId());
         if (cartItem == null) {
-            validateProductCount(productCount);
+            cartService.validateProductCount(productCount);
             cartItem = new CartItem(productCount, product);
             cartItem.setPersisted(isPersisted);
             cartItem.setId(product.getId());
             getProducts().put(product.getId(), cartItem);
         } else {
-            validateProductCount(productCount + cartItem.getProductCount());
+            cartService.validateProductCount(productCount + cartItem.getProductCount());
             cartItem.setProductCount(cartItem.getProductCount() + productCount);
             cartItem.setPersisted(isPersisted);
         }

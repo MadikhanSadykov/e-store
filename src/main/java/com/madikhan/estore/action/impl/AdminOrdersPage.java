@@ -5,11 +5,10 @@ import static com.madikhan.estore.constants.NamesConstants.*;
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
 import com.madikhan.estore.model.Order;
-import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.OrderService;
 import com.madikhan.estore.service.impl.OrderServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +25,7 @@ public class AdminOrdersPage implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             Integer languageID = (Integer) request.getSession(true).getAttribute(LANGUAGE_ID);
             List<Order> orders = orderService
                     .listAllOrdersWithLimit((long) NUMBER_OF_FIRST_PAGE, MAX_ORDERS_PER_ADMIN_PAGE, languageID);

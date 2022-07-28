@@ -106,27 +106,18 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public void create(OrderItem object) throws SQLException {
-
-    }
-
-    @Override
     public OrderItem getByID(Long id) throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<OrderItem> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(Long id, OrderItem object) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
 }

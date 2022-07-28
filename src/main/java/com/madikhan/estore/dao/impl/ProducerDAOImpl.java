@@ -80,16 +80,7 @@ public class ProducerDAOImpl implements ProducerDAO {
 
     @Override
     public void update(Long id, Producer object) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
-
-    @Override
-    public void create(Producer object) throws SQLException {
-
-    }
 }

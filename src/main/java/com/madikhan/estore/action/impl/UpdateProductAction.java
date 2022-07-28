@@ -4,7 +4,8 @@ import static com.madikhan.estore.constants.NamesConstants.*;
 
 import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
-import com.madikhan.estore.model.*;
+import com.madikhan.estore.model.Category;
+import com.madikhan.estore.model.Product;
 import com.madikhan.estore.service.CategoryService;
 import com.madikhan.estore.service.OrderItemService;
 import com.madikhan.estore.service.ProductService;
@@ -12,7 +13,7 @@ import com.madikhan.estore.service.impl.CategoryServiceImpl;
 import com.madikhan.estore.service.impl.OrderItemServiceImpl;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,9 +33,9 @@ public class UpdateProductAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
 
-        if (user.getIsAdmin()) {
+
+        if (AdminValidator.isAdminRole(request)) {
             Long countProductInOrderItems =
                     orderItemService.countAllByProductID(Long.valueOf(request.getParameter(ID)));
 

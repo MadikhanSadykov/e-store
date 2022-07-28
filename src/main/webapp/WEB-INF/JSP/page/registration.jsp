@@ -47,7 +47,7 @@
         <div class="col-sm-offset-4 col-sm-3">
             <span><fmt:message key="do.you.have.account"/> </span>
             <br>
-            <a href="/loginPage"><fmt:message key="create.account"/></a>
+            <a href="/loginPage"><fmt:message key="sign.in"/></a>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-3">

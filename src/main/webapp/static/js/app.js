@@ -479,8 +479,10 @@
 						if(prevCount - remCount <= 1) {
 							$('#product' + idProduct + ' a.remove-product.all').remove();
 						}
+						location.reload();
 					}
 					refreshTotalCost();
+					location.reload();
 				}
 			},
 			error : function(data) {

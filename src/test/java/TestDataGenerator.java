@@ -66,7 +66,7 @@ public class TestDataGenerator {
         List<Category> categories = loadCategories();
         List<Producer> producers = getProducers(categories);
         clearMediaDir();
-        try (Connection c = DriverManager.getConnection(JDBC_URL)) {
+        try (Connection c = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD)) {
             c.setAutoCommit(false);
             clearDb(c);
 

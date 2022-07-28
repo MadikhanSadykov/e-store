@@ -72,23 +72,13 @@ public class LanguageDAOImpl implements LanguageDAO {
     }
 
     @Override
-    public void create(Language object) throws SQLException {
-
-    }
-
-    @Override
     public void update(Long id, Language object) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Language getByID(Long id) {
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
 }

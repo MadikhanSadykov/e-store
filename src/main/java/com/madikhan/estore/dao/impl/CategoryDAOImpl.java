@@ -82,21 +82,12 @@ public class CategoryDAOImpl implements CategoryDAO {
 
     @Override
     public List<Category> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(Long id, Category object) throws SQLException {
-
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
-
-    @Override
-    public void create(Category object) throws SQLException {
-
-    }
 }

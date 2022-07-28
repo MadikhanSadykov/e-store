@@ -1,7 +1,7 @@
 package com.madikhan.estore.util;
 
 import static com.madikhan.estore.constants.NamesConstants.*;
-import static com.madikhan.estore.constants.NamesConstants.Cookie.*;
+import static com.madikhan.estore.util.Cookie.*;
 import com.madikhan.estore.model.Cart;
 import com.madikhan.estore.model.User;
 

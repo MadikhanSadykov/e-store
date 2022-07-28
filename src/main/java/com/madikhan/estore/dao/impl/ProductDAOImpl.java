@@ -320,7 +320,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getAll() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }

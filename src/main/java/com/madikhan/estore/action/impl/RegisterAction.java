@@ -7,7 +7,6 @@ import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
 import com.madikhan.estore.validator.AuthenticationValidator;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -15,7 +14,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -27,7 +25,6 @@ public class RegisterAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        HttpSession session = request.getSession(true);
         RequestDispatcher dispatcher;
 
         if (request.getParameter(PASSWORD).equals(request.getParameter(CONFIRM_PASSWORD))) {

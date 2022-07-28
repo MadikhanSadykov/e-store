@@ -8,7 +8,7 @@ import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.UserService;
 import com.madikhan.estore.service.impl.UserServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +25,7 @@ public class AdminUsersPageAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             List<User> users = userService.listAll();
             request.setAttribute(USERS, users);
             Long totalCount = userService.countAllUsers();

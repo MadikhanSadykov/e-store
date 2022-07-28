@@ -17,7 +17,7 @@ import java.util.List;
 
 public class LoadMoreOrdersForAdmin implements Action {
 
-    private OrderService orderService = OrderServiceImpl.getInstance();
+    private final OrderService orderService = OrderServiceImpl.getInstance();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,

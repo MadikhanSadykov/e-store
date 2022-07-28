@@ -251,17 +251,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUserPassword(Long userId, String newPassword) {
-
-    }
-
-    @Override
-    public void updateUserRole(Long userId, Boolean isAdmin) {
-
-    }
-
-    @Override
     public User getByID(Long id) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

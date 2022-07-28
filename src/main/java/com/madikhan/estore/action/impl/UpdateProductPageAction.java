@@ -6,11 +6,10 @@ import com.madikhan.estore.action.Action;
 import com.madikhan.estore.exception.AccessDeniedException;
 import com.madikhan.estore.exception.ResourceNotFoundException;
 import com.madikhan.estore.model.Product;
-import com.madikhan.estore.model.User;
 import com.madikhan.estore.service.ProductService;
 import com.madikhan.estore.service.impl.ProductServiceImpl;
 import com.madikhan.estore.util.RoutingUtil;
-import com.madikhan.estore.util.SessionUtil;
+import com.madikhan.estore.validator.AdminValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +25,9 @@ public class UpdateProductPageAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
 
-        User user = SessionUtil.getCurrentUser(request);
         Long productID = Long.valueOf(request.getParameter(ID));
         Integer languageID = (Integer) request.getSession().getAttribute(LANGUAGE_ID);
-        if (user.getIsAdmin()) {
+        if (AdminValidator.isAdminRole(request)) {
             Product product = productService.getProductByID(productID, languageID);
             if (product != null) {
                 request.setAttribute(PRODUCT, product);

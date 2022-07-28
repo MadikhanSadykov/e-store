@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface UserDAO extends DAO<User> {
 
+    void create(User user) throws SQLException;
+
+    void delete(Long userID) throws SQLException;
+
     User getUserByEmailAndPassword(String email, String password) throws SQLException;
-
-    void updateUserPassword(Long userId, String newPassword) throws SQLException;
-
-    void updateUserRole(Long userId, Boolean isAdmin) throws SQLException;
 
     boolean isEmailExist(String email) throws SQLException;
 
