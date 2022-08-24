@@ -24,21 +24,27 @@
             <label for="name" class="col-sm-4 control-label"><fmt:message key="first.name"/></label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                       value="${sessionScope.CURRENT_USER.name}" required />
+                       value="<c:choose>
+<c:when test="${not empty requestScope.name}">${requestScope.name}</c:when>
+<c:otherwise>${sessionScope.CURRENT_USER.name}</c:otherwise></c:choose>" required />
             </div>
         </div>
         <div class="form-group">
             <label for="surname" class="col-sm-4 control-label"><fmt:message key="second.name" /> </label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname"
-                       value="${sessionScope.CURRENT_USER.surname}">
+                       value="<c:choose>
+<c:when test="${not empty requestScope.surname}">${requestScope.surname}</c:when>
+<c:otherwise>${sessionScope.CURRENT_USER.surname}</c:otherwise></c:choose>" />
             </div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-4 control-label"><fmt:message key="email" /></label>
             <div class="col-sm-3">
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                       value="${sessionScope.CURRENT_USER.email}" required />
+                       value="<c:choose>
+<c:when test="${not empty requestScope.email}">${requestScope.email}</c:when>
+<c:otherwise>${sessionScope.CURRENT_USER.email}</c:otherwise></c:choose>" required />
                 <c:if test="${not empty requestScope.emailIsWrong}">
                     <small class="text-danger">${requestScope.emailIsWrong}</small>
                 </c:if>
@@ -47,10 +53,12 @@
         <div class="form-group">
             <label for="phoneNumber" class="col-sm-4 control-label"><fmt:message key="phone.number"/></label>
             <div class="col-sm-3">
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone number"
-                       value="${sessionScope.CURRENT_USER.phoneNumber}">
+                <input type="tel" class="form-control tel" id="phoneNumber" name="phoneNumber"
+                       value="<c:choose>
+<c:when test="${not empty requestScope.phoneNumber}">${requestScope.phoneNumber}</c:when>
+<c:otherwise>${sessionScope.CURRENT_USER.phoneNumber}</c:otherwise></c:choose>" />
                 <c:if test="${not empty requestScope.phoneNumberWrong}">
-                    <small class="text-danger">${requestScope.phoneNumberWrong}</small>
+                    <small class="text-danger"><fmt:message key="${requestScope.phoneNumberWrong}" /> </small>
                 </c:if>
             </div>
         </div>
@@ -58,16 +66,19 @@
             <label for="address" class="col-sm-4 control-label"><fmt:message key="address"/></label>
             <div class="col-sm-3">
                 <input type="text" class="form-control" id="address" name="address" placeholder="Address"
-                       value="${sessionScope.CURRENT_USER.address}">
+                       value="<c:choose>
+<c:when test="${not empty requestScope.address}">${requestScope.address}</c:when>
+<c:otherwise>${sessionScope.CURRENT_USER.address}</c:otherwise></c:choose>" />
             </div>
         </div>
 
         <c:choose>
             <c:when test="${not empty requestScope.newPasswordIsWrong}">
                 <div class="form-group has-error has-feedback">
-                    <label class="col-sm-4 control-label" for="newPasswordError">${requestScope.newPasswordIsWrong}</label>
+                    <label class="col-sm-4 control-label" for="newPasswordError">
+                            <fmt:message key="${requestScope.newPasswordIsWrong}" /> </label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" name="newPassword" id="newPasswordError" >
+                        <input type="password" class="form-control" name="newPassword" id="newPasswordError" autocomplete="off" />
                     </div>
                 </div>
             </c:when>
@@ -76,7 +87,7 @@
                     <label for="newPassword" class="col-sm-4 control-label"><fmt:message key="new.password"/></label>
                     <div class="col-sm-3">
                         <input type="password" class="form-control" id="newPassword" name="newPassword"
-                               placeholder="<fmt:message key="new.password"/>">
+                               placeholder="<fmt:message key="new.password"/>" autocomplete="off" />
                     </div>
                 </div>
             </c:otherwise>
@@ -86,10 +97,11 @@
             <c:when test="${not empty requestScope.confirmNewPasswordIsWrong}">
                 <div class="form-group has-error has-feedback">
                     <label class="col-sm-4 control-label" for="confirmNewPasswordError">
-                            ${requestScope.confirmNewPasswordIsWrong}
+                            <fmt:message key="${requestScope.confirmNewPasswordIsWrong}" />
                     </label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordError" >
+                        <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordError"
+                               autocomplete="off" />
                     </div>
                 </div>
             </c:when>
@@ -100,7 +112,7 @@
                     </label>
                     <div class="col-sm-3">
                         <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword"
-                               placeholder="<fmt:message key="confirm.new.password"/>">
+                               placeholder="<fmt:message key="confirm.new.password"/>" autocomplete="off" />
                     </div>
                 </div>
             </c:otherwise>
@@ -110,7 +122,7 @@
             <c:when test="${not empty requestScope.passwordAuthError}">
                 <div class="form-group has-error has-feedback">
                     <label class="col-sm-4 control-label" for="passwordError">
-                        <c:out value="${requestScope.passwordAuthError}" />
+                        <fmt:message key="${requestScope.passwordAuthError}" />
                     </label>
                     <div class="col-sm-3">
                         <input type="password" class="form-control" name="password" id="passwordError" required />

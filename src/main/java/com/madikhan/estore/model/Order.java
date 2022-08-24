@@ -13,6 +13,11 @@ public class Order extends AbstractModel<Long> {
     private Timestamp created;
     private Timestamp finished;
     private Long idUser;
+    private String userName;
+    private String userEmail;
+    private String userPhone;
+    private String userAddress;
+
     private Integer idStatus;
     private String status;
 
@@ -93,6 +98,38 @@ public class Order extends AbstractModel<Long> {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 
     @Override

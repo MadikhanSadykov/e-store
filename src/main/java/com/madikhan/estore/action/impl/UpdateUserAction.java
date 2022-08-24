@@ -39,7 +39,7 @@ public class UpdateUserAction implements Action {
             if ( (!newPassword.equals("") && !confirmNewPassword.equals("")) && newPassword.equals(confirmNewPassword)) {
                 if (!AuthenticationValidator.isPasswordValid(request.getParameter(NEW_PASSWORD))) {
                     request.setAttribute(NEW_PASSWORD_IS_WRONG, PASSWORD_WRONG_FORMAT_MESSAGE);
-                    request.setAttribute(EMAIL, request.getParameter(EMAIL));
+                    setUserParamsToRequest(request);
                     dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                     dispatcher.forward(request, response);
                     return;
@@ -49,6 +49,7 @@ public class UpdateUserAction implements Action {
 
             if ( (!newPassword.equals("") && !confirmNewPassword.equals("")) && !newPassword.equals(confirmNewPassword)){
                 request.setAttribute(CONFIRM_NEW_PASSWORD_IS_WRONG, CONFIRM_NEW_PASSWORD_IS_WRONG_MESSAGE);
+                setUserParamsToRequest(request);
                 dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                 dispatcher.forward(request, response);
                 return;
@@ -56,28 +57,31 @@ public class UpdateUserAction implements Action {
 
             if (!newPassword.equals("") && confirmNewPassword.equals("")) {
                 request.setAttribute(CONFIRM_NEW_PASSWORD_IS_WRONG, CONFIRM_NEW_PASSWORD_IS_EMPTY_MESSAGE);
+                setUserParamsToRequest(request);
                 dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                 dispatcher.forward(request, response);
                 return;
             }
             if (newPassword.equals("") && !confirmNewPassword.equals("")) {
                 request.setAttribute(NEW_PASSWORD_IS_WRONG, NEW_PASSWORD_IS_EMPTY_MESSAGE);
+                setUserParamsToRequest(request);
                 dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                 dispatcher.forward(request, response);
                 return;
             }
 
-            if (!AuthenticationValidator.isEmailValid(request.getParameter(EMAIL))){
+            if (!AuthenticationValidator.isEmailValid(request.getParameter(EMAIL))) {
                 request.setAttribute(EMAIL_IS_WRONG, EMAIL_WRONG_FORMAT_MESSAGE);
-                request.setAttribute(EMAIL, request.getParameter(EMAIL));
+                setUserParamsToRequest(request);
                 dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                 dispatcher.forward(request, response);
                 return;
             }
 
-            if (!AuthenticationValidator.isPhoneNumberValid(request.getParameter(PHONE_NUMBER))) {
+            if (!AuthenticationValidator.isPhoneNumberValid(request.getParameter(PHONE_NUMBER))
+                    && !request.getParameter(PHONE_NUMBER).equals("")) {
                 request.setAttribute(PHONE_NUMBER_WRONG_FORMAT, PHONE_NUMBER_WRONG_FORMAT_MESSAGE);
-                request.setAttribute(PHONE_NUMBER, request.getParameter(PHONE_NUMBER));
+                setUserParamsToRequest(request);
                 dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
                 dispatcher.forward(request, response);
                 return;
@@ -92,6 +96,11 @@ public class UpdateUserAction implements Action {
             dispatcher.forward(request, response);
         } else {
             request.setAttribute(PASSWORD_AUTH_ERROR, PASSWORD_IS_WRONG_MESSAGE);
+            request.setAttribute(NAME, request.getParameter(NAME));
+            request.setAttribute(SURNAME, request.getParameter(SURNAME));
+            request.setAttribute(EMAIL, request.getParameter(EMAIL));
+            request.setAttribute(PHONE_NUMBER, request.getParameter(PHONE_NUMBER));
+            request.setAttribute(ADDRESS, request.getParameter(ADDRESS));
             dispatcher = request.getRequestDispatcher(CHANGE_PROFILE_PAGE);
             dispatcher.forward(request, response);
         }
@@ -125,5 +134,13 @@ public class UpdateUserAction implements Action {
         user.setPassword(encodedPassword);
         user.setIsAdmin(currentUser.getIsAdmin());
         return user;
+    }
+
+    private void setUserParamsToRequest(HttpServletRequest request) {
+        request.setAttribute(NAME, request.getParameter(NAME));
+        request.setAttribute(SURNAME, request.getParameter(SURNAME));
+        request.setAttribute(EMAIL, request.getParameter(EMAIL));
+        request.setAttribute(PHONE_NUMBER, request.getParameter(PHONE_NUMBER));
+        request.setAttribute(ADDRESS, request.getParameter(ADDRESS));
     }
 }

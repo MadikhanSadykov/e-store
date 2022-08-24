@@ -28,7 +28,7 @@ public class AdminOrdersPage implements Action {
         if (AdminValidator.isAdminRole(request)) {
             Integer languageID = (Integer) request.getSession(true).getAttribute(LANGUAGE_ID);
             List<Order> orders = orderService
-                    .listAllOrdersWithLimit((long) NUMBER_OF_FIRST_PAGE, MAX_ORDERS_PER_ADMIN_PAGE, languageID);
+                    .listAllOrdersWithLimit(NUMBER_OF_FIRST_PAGE, MAX_ORDERS_PER_ADMIN_PAGE, languageID);
             request.setAttribute(ORDERS, orders);
             Long totalCount = orderService.countAllOrders();
             request.setAttribute(PAGE_COUNT, getPageCount(totalCount, MAX_ORDERS_PER_ADMIN_PAGE ));

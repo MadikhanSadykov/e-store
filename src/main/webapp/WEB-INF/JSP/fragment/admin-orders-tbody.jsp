@@ -5,7 +5,13 @@
 <fmt:setBundle basename="language" />
 <c:forEach var="order" items="${requestScope.orders }">
     <tr class="item" id="order${order.id}">
-        <td>${order.id }</td>
+        <td><a href="/order?id=${order.id }"><fmt:message key="order" /> #${order.id }</a></td>
+
+        <td>${order.userName}</td>
+        <td>${order.userEmail}</td>
+        <td>${order.userPhone}</td>
+        <td>${order.userAddress}</td>
+
         <td><fmt:formatDate value="${order.created }" pattern="yyyy-MM-dd HH:mm" /></td>
         <c:choose>
             <c:when test="${not empty order.finished}">

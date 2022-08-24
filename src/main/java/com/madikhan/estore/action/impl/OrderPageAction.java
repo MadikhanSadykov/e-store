@@ -30,7 +30,7 @@ public class OrderPageAction implements Action {
         request.setAttribute(CURRENT_MESSAGE, message);
         Long orderID = Long.parseLong(request.getParameter(ID));
         Order order = orderService.findByID(orderID, languageID);
-        if (!order.getIdUser().equals(user.getId())) {
+        if (!order.getIdUser().equals(user.getId()) && !user.getIsAdmin()) {
             throw new AccessDeniedException(
                     String.format(ACCOUNT_WITH_ID_NOT_OWNER_ORDER, user.getId(), order.getId()));
         }

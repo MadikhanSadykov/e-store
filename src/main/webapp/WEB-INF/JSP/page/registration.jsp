@@ -11,7 +11,8 @@
         <div class="form-group">
             <label for="name" class="col-sm-4 control-label"><fmt:message key="first.name"/></label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="name"/>" >
+                <input type="text" class="form-control" id="name" name="name" placeholder="<fmt:message key="name"/>"
+                       value="<c:if test="${not empty requestScope.name}"><c:out value="${requestScope.name}" /></c:if>">
             </div>
         </div>
         <div class="form-group">

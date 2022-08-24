@@ -23,8 +23,9 @@ public class OrderDAOImpl implements OrderDAO {
             "AND o.id_status = s.id AND s.id_language = ? ORDER BY o.id LIMIT ? OFFSET ?";
     private static final String SELECT_COUNT_ALL_ORDERS_BY_USER_ID = "SELECT count(*) as count FROM \"order\" WHERE id_user = ?";
     private static final String UPDATE_STATUS_BY_ID = "UPDATE \"order\" SET id_status = ?, finished = ? WHERE id = ? ";
-    private static final String SELECT_ALL_WITH_LIMIT = "SELECT o.*, s.name as status FROM \"order\" o, status s WHERE " +
-            " o.id_status = s.id AND s.id_language = ? ORDER BY o.id LIMIT ? OFFSET ?";
+    private static final String SELECT_ALL_WITH_LIMIT = "SELECT o.*, s.name as status, u.name as user_name, u.email as user_email, " +
+            "u.phone_number as user_phone, u.address as address FROM \"order\" o, status s, \"user\" u WHERE " +
+            " o.id_user = u.id AND o.id_status = s.id AND s.id_language = ? ORDER BY o.id LIMIT ? OFFSET ?";
     private static final String SELECT_COUNT_ALL_ORDERS = "SELECT count(*) as count FROM \"order\"";
     private ConnectionPool connectionPool;
     private Connection connection;
@@ -178,6 +179,10 @@ public class OrderDAOImpl implements OrderDAO {
             while (resultSet.next()) {
                 Order order = new Order();
                 setResultSetToOrder(order, resultSet);
+                order.setUserName(resultSet.getString("user_name"));
+                order.setUserEmail(resultSet.getString("user_email"));
+                order.setUserPhone(resultSet.getString("user_phone"));
+                order.setUserAddress(resultSet.getString("address"));
                 orders.add(order);
             }
         } catch (SQLException sqlException) {

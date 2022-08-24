@@ -94,7 +94,7 @@ public class NamesConstants {
     public static final String PASSWORD_AUTH_ERROR = "passwordAuthError";
     public static final String EMAIL_IS_WRONG_MESSAGE = "Email is wrong";
     public static final String REQUEST_NOT_VALID_MESSAGE = "Request is not valid: ";
-    public static final String PASSWORD_IS_WRONG_MESSAGE = "Password is wrong";
+    public static final String PASSWORD_IS_WRONG_MESSAGE = "password.is.wrong";
     public static final String YOU_ARE_NOT_ADMIN_MESSAGE = "You are not Admin!";
     public static final String PASSWORD_IS_WRONG = "passwordIsWrong";
     public static final String PRODUCT_COUNT = "productCount";
@@ -104,20 +104,20 @@ public class NamesConstants {
     public static final String NEW_PASSWORD_IS_WRONG = "newPasswordIsWrong";
     public static final String PRODUCT_UPDATE_ERROR = "ProductUpdateError";
     public static final String PRODUCT_UPDATE_ERROR_CAUSE = "Product already in order!";
-    public static final String NEW_PASSWORD_IS_EMPTY_MESSAGE = "New Password Is Empty";
+    public static final String NEW_PASSWORD_IS_EMPTY_MESSAGE = "new.password.is.empty";
     public static final String USER_DATA_NOT_COMPLETE = "UserDataIsNotComplete";
     public static final String USER_DATA_NOT_COMPLETE_MESSAGE = "Please fill all your data";
     public static final String THERE_IS_NO_SUCH_PRODUCT_MESSAGE = "There is no such product!";
     public static final String CONFIRM_NEW_PASSWORD_IS_WRONG = "confirmNewPasswordIsWrong";
     public static final String ACCOUNT_WITH_ID_NOT_OWNER_ORDER = "Account with id = %s is not owner for order with id = %s";
-    public static final String CONFIRM_NEW_PASSWORD_IS_EMPTY_MESSAGE = "Confirm New Password Is Empty";
-    public static final String CONFIRM_NEW_PASSWORD_IS_WRONG_MESSAGE = "Confirm New Password Is Wrong";
+    public static final String CONFIRM_NEW_PASSWORD_IS_EMPTY_MESSAGE = "confirm.new.password.is.empty";
+    public static final String CONFIRM_NEW_PASSWORD_IS_WRONG_MESSAGE = "confirm.new.password.is.wrong";
     public static final String CONFIRM_PASSWORD = "confirmPassword";
     public static final String PASSWORD_DOES_NOT_MATCH_MESSAGE = "Password does not match!";
     public static final String EMAIL_IS_WRONG = "emailIsWrong";
     public static final String EMAIL_EXISTS_MESSAGE = "Login already exists!";
     public static final String EMAIL_WRONG_FORMAT_MESSAGE = "Email format wrong: A-Za-z0-9@a-z.a-z";
-    public static final String PASSWORD_WRONG_FORMAT_MESSAGE = "Password format wrong: min 6 symbol";
+    public static final String PASSWORD_WRONG_FORMAT_MESSAGE = "password.format.wrong";
     public static final String PHONE_NUMBER_WRONG_FORMAT = "phoneNumberWrong";
     public static final String ERROR_POOL_SIZE_PROPERTIES = "Cannot get pool size from properties!";
     public static final String ERROR_FIND_JDBC_DRIVER_CLASS = "Cannot find driver class for jdbc!";
@@ -125,7 +125,7 @@ public class NamesConstants {
     public static final String ERROR_THREAD_INTERRUPTED_WHILE_GET_CONNECTION = "Thread interrupted while get connection";
     public static final String ERROR_THREAD_INTERRUPTED_WHILE_BRING_BACK_CONNECTION = "Thread interrupted while bring back connection";
     public static final String ERROR_CANNOT_OPEN_CONNECTION = "Cannot open connection (url, username, password is not correct)";
-    public static final String PHONE_NUMBER_WRONG_FORMAT_MESSAGE = "Phone number format wrong: 8-(xxx)-xxx-xx-xx";
+    public static final String PHONE_NUMBER_WRONG_FORMAT_MESSAGE = "phone.format.wrong";
     public static final String USER_HAS_ORDERS_MESSAGE = "User has one or more orders!";
 
     public static final String LOGIN = "login";

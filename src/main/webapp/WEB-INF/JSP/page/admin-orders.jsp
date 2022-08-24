@@ -10,6 +10,12 @@
     <thead>
     <tr>
         <th>ID</th>
+
+        <th><fmt:message key="user.name" /> </th>
+        <th><fmt:message key="user.email" /> </th>
+        <th><fmt:message key="user.phone" /></th>
+        <th><fmt:message key="user.address" /></th>
+
         <th><fmt:message key="created" /></th>
         <th><fmt:message key="finished" /></th>
         <th><fmt:message key="total.cost" /></th>

@@ -16,8 +16,6 @@ public class ProfilePageAction implements Action {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException,
             SQLException, ServletException {
-
         RoutingUtil.forwardToPage(PROFILE_JSP, request, response);
-
     }
 }

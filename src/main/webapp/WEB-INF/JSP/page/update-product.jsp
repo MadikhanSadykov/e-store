@@ -62,7 +62,7 @@
         <div class="form-group">
             <label for="description" class="col-sm-4 control-label"><fmt:message key="price"/> $</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="price" name="price" placeholder="<fmt:message key="price"/> $"
+                <input type="number" class="form-control" id="price" name="price" placeholder="<fmt:message key="price"/> $"
                        value="${requestScope.product.price}" required />
             </div>
         </div>

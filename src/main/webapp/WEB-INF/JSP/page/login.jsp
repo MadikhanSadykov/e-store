@@ -11,10 +11,10 @@
         <c:choose>
             <c:when test="${not empty requestScope.emailAuthError}">
                 <div class="form-group has-error has-feedback">
-                    <label class="col-sm-4 control-label" for="emailError"><c:out value="${requestScope.emailAuthError}" /></label>
+                    <label class="col-sm-4 control-label" for="emailError"><fmt:message key="email.is.wrong"/></label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" name="email" id="emailError"
-                               value="${requestScope.userEmail}" required />
+                               value="${requestScope.userEmail}" required autocomplete="off" />
                     </div>
                 </div>
             </c:when>
@@ -23,9 +23,9 @@
                     <label for="email" class="col-sm-4 control-label"><fmt:message key="email"/></label>
                     <div class="col-sm-3">
                         <input type="email" class="form-control" id="email" name="email" placeholder="<fmt:message key="email"/>"
-                        value="<c:if test="${not empty requestScope.passwordAuthError}">
-"                              <c:out value="${requestScope.userEmail}" />
-                               </c:if>"  required />
+                        value="<c:if test="${not empty requestScope.passwordAuthError}">"
+                        <c:out value="${requestScope.userEmail}" />
+                        </c:if>" required autocomplete="off" />
                     </div>
                 </div>
             </c:otherwise>
@@ -34,9 +34,9 @@
         <c:choose>
             <c:when test="${not empty requestScope.passwordAuthError}">
                 <div class="form-group has-error has-feedback">
-                    <label class="col-sm-4 control-label" for="passwordError"><c:out value="${requestScope.passwordAuthError}" /></label>
+                    <label class="col-sm-4 control-label" for="passwordError"><fmt:message key="password.is.wrong"/></label>
                     <div class="col-sm-3">
-                        <input type="password" class="form-control" name="password" id="passwordError"  required />
+                        <input type="password" class="form-control" name="password" id="passwordError" required autocomplete="off" />
                     </div>
                 </div>
             </c:when>
@@ -45,7 +45,7 @@
                     <label for="password" class="col-sm-4 control-label"><fmt:message key="password"/></label>
                     <div class="col-sm-3">
                         <input type="password" class="form-control" id="password" name="password"
-                               placeholder="<fmt:message key="password"/>"  required />
+                               placeholder="<fmt:message key="password"/>" required autocomplete="off" />
                     </div>
                 </div>
             </c:otherwise>
